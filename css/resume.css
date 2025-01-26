@@ -63,8 +63,22 @@ h2 {
   text-transform: uppercase;
 }
 
+.img-profile-mb {
+  margin-left: 50%!important;
+  max-width: 8rem;
+  max-height: 8rem;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  border: 0.5rem solid rgba(16, 116, 86, .5);
+}
+
 @media (min-width: 992px) {
+  .img-profile-mb
+  {
+    display: none;
+  }
   #sideNav {
+    
     text-align: center;
     position: fixed;
     top: 0;
@@ -84,6 +98,8 @@ h2 {
     max-height: 10rem;
     border: 0.5rem solid rgba(255, 255, 255, 0.2);
   }
+ 
+  
   #sideNav .navbar-collapse {
     display: flex;
     align-items: flex-start;
@@ -101,11 +117,25 @@ h2 {
   #sideNav .navbar-collapse .navbar-nav .nav-item .nav-link {
     display: block;
   }
+  section.resume-section {
+    border-bottom: 1px solid #dee2e6;
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+  h1
+  {
+    font-size: 6rem!important;
+  }
 }
 section.resume-section {
   border-bottom: 1px solid #dee2e6;
-  padding-top: 5rem !important;
+  padding-top: 1rem !important;
   padding-bottom: 5rem !important;
+  
+}
+h1
+{
+  font-size: 4rem;
 }
 section.resume-section .resume-item .resume-date {
   min-width: none;
