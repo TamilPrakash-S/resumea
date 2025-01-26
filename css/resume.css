@@ -47,7 +47,10 @@ h2 {
 .list-social-icons a .fa-lg {
   font-size: 1.75rem;
 }
-
+.designation
+{
+  font-size: 2.85rem;
+}
 .list-icons {
   font-size: 3rem;
 }
@@ -137,4 +140,20 @@ a:hover, a:focus, a:active {
   color: rgb(6.7272727273, 48.7727272727, 36.1590909091);
 }
 
+.designation
+{
+  display: flex;
+}
+#cursor {
+  margin-top: 0.08em;
+  font-size: .8em;
+  font-weight: bold;
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
 /*# sourceMappingURL=resume.css.map */

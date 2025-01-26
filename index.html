@@ -68,12 +68,19 @@
         <h1 class="mb-0">Tamil Prakash
           <span class="text-primary">S</span>
         </h1>
+        <h2 class="p-2 m-0 designation">
+          a &nbsp;<span id="dynamic-text" class="text-primary">PROGRAMMER</span><div  class="text-primary" id="cursor">|</div>
+        </h2>
         <div class="subheading mb-5 ml-2">Tamil Nadu, India - +91 88836 25557·
           <a href="mailto:tamilprakashstp@gmail.com">tamilprakashstp@gmail.com</a>
         </div>
-        <p class="mb-5">Self-motivated and highly skilled programmer with over <span id="experience-years">7+</span> years of experience in designing, developing, analyzing, and implementing both desktop and web-based applications. 
-          Specializes in crafting high-performance 3D web experiences, with a proven ability to debug, optimize, and enhance complex application code. 
-          Recognized for strong analytical skills and a commitment to delivering innovative, efficient, and user-focused solutions.</p>
+        <p class="mb-5">Self-motivated and highly skilled programmer with over <span id="experience-years">7+</span>
+          years of experience in designing, developing, analyzing, and implementing both desktop and web-based
+          applications.
+          Specializes in crafting high-performance 3D web experiences, with a proven ability to debug, optimize, and
+          enhance complex application code.
+          Recognized for strong analytical skills and a commitment to delivering innovative, efficient, and user-focused
+          solutions.</p>
         <ul class="list-inline list-social-icons mb-0">
           <li class="list-inline-item" onclick="window.open('https://www.linkedin.com/in/tamil-prakash/')">
             <a href="#">
@@ -297,6 +304,38 @@
     var years = currentDate.getFullYear() - startDate.getFullYear(), months = currentDate.getMonth() - startDate.getMonth();
     if (months < 0) years--, months += 12;
     currentExp.innerHTML = `(${years} Years ${months} Months)`;
+
+
+    const textElement = document.getElementById("dynamic-text");
+    const words = ["PROGRAMMER", "DEVELOPER"];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeEffect() {
+      const currentWord = words[wordIndex];
+      const displayedText = currentWord.slice(0, charIndex);
+
+      textElement.textContent = displayedText;
+
+      if (!isDeleting && charIndex < currentWord.length) {
+        charIndex++;
+        setTimeout(typeEffect, 50); // Typing speed
+      } else if (isDeleting && charIndex > 0) {
+        charIndex--;
+        setTimeout(typeEffect, 50); // Deleting speed
+      } else if (!isDeleting && charIndex === currentWord.length) {
+        isDeleting = true;
+        setTimeout(typeEffect, 1000); // Pause before deleting
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        setTimeout(typeEffect, 500); // Pause before typing new word
+      }
+    }
+
+    typeEffect();
+
   }
 </script>
 
