@@ -24,7 +24,7 @@ var data = {
         "Java": 65,
         "Unreal Engine": 20
     },
-    "profile": "Self-directed and professional programmer with almost 7+ years of experience in designing, developing, analyzing, and implementing desktop and web-based applications. Expertise in system designing as well as in debugging and modifying related application code.",
+    "profile": "Self-directed and professional programmer with almost 6+ years of experience in designing, developing, analyzing, and implementing desktop and web-based applications. Expertise in system designing as well as in debugging and modifying related application code.",
     "employmentHistory": [
         {
             "position": "Sr. ThreeJs Developer",
