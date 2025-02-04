@@ -10,13 +10,97 @@
   <script src="./data/data.js"></script>
   <link rel="stylesheet" href="./family-chart/family-chart.min.css">
 </head>
+<style>
+  #container {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    top: 20px;
+    left: 20px;
+    margin: auto;
+    padding: .1rem;
+    border-radius: .8rem;
+    border: 1px solid #dadada;
+    background-color: #dadada;
+    box-shadow:
+      -.1rem -.1rem .4rem #eee,
+      .1rem 0 .8rem #dadada,
+      .1rem .1rem .4rem #777,
+      -.17rem -.17rem .2rem transparent inset,
+      .2rem .2rem .2rem transparent inset
+  }
+
+  .neu-button {
+    will-change: box-shadow;
+    transition: .4s box-shadow;
+    padding: .3rem;
+    border-radius: .8rem;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid #dadada;
+    background-color: #dadada;
+    margin: .4rem;
+    box-shadow:
+      -.17rem -.17rem .2rem #eee9,
+      .1rem 0 .4rem #dadada99,
+      .2rem .2rem .2rem #777,
+      -.17rem -.17rem .2rem #eee inset,
+      .2rem .2rem .2rem #dadada inset;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .neu-button:hover {
+    will-change: box-shadow;
+    transition: .4s box-shadow;
+    box-shadow:
+      -.17rem -.17rem .2rem transparent,
+      0rem 0 .4rem transparent,
+      0rem 0rem 0rem -.1rem #777,
+      -.17rem -.17rem .2rem #efefef inset,
+      .2rem .2rem .2rem #dadada inset;
+  }
+
+  .neu-button:active::after {
+    filter: invert(10%);
+    will-change: filter;
+    transition: .4s all;
+  }
+
+
+
+  .add-after::after {
+    content: "";
+    display: block;
+    width: 83%;
+    height: 83%;
+    background-size: 100% 100% !important;
+    will-change: filter;
+    transition: .4s all;
+    filter: invert(0%);
+  }
+
+  .copy::after {
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA90lEQVR4nO2aQQ7CMAwE99RHwQd4GS3fLE2+sVyChIIojaPI6Sor+RAptTz19FbAlhuAJwAW1pqe7SarAeITpnkmAA8A8eBQpTnSMwBY0izmLIVvtwUIU801ILEjkFgDUur7paD31dDfHHZW5ngPzgGSxXsDHBvJ4r0Bjo1k8d4Ae9tI3s96Lr33dWGAQEwtqoC80wqEXt/IaUGoohZVQGTUkgGhilpUAZFRSwaEKmpRBURGLRkQqqhFFRAZtWRAqKIWVUBk1JIBobdaoYPhmWqrAZk7Uuu+M+ffjU0JJjiCbAli74eBavVGzhr+UKzVuVlkQEZgzAtZBNiHR7NzzgAAAABJRU5ErkJggg==");
+  }
+
+  .download::after {
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAACWklEQVR4nO3cO2hUURCH8U9FEUEQC0EwhYWIijY2giIIgqj4ADs7Szs7W0tLO0urWEh8VmpjY2WhhY2FhRgRQVTc+IyPkQs3hZKYze4m59xzvh9MExKY85872WX37oIkSZIk5WkMmAB6QMxTze/cALambrqk8N/1Efy/1fzNptTNl2BigPBn6lrq5kvQG2IAH1M3X4IYsuQAui3cAAdQtXADHEDVwg1wAFULN8ABVC3cAAdQtXADHEDVwg1wAFULN8ABVC3cAAdQtXADHEDVwg1wAFULN8ABVC3cAAdQtXADHEDVwg1wAJ12FHg1gis5lrgmgcMUYDKDMGPAekkBHEBiJ4DpDK7mWGB9B45TiCPAlwxCjT7rG3CSwuxvP7UYmdcn4CCF2g28zSDkmKPeA3so3PZMn5a+AXZRic3A8wxCn6kXwBYqsxF4mkH4z9rvo6jSBuBJwvAftz1UbR3wMEH4j4D1qQ+fizXAvSUM/wGwNvWhc7MKuL4E4d8BVqc+bK5WAFcWMfxxYGXqQ+ZuGXBpEcK/DCxPfbguuTDC8C+mPkxXnTf89M4CvwYYxG/gXOrmS3Ea+LGA8H8CZ1I3XZpjwNc+30g5lbrZUh0Apv4T/mfgUOomS7cP+DBL+M3P9qZurhZjwFXgdVvjNb+iKUmSJEmSpLLsaG/n6MLt5ZG4moxutzchj8TOeV6Dt5g1g6k2u6HdN2QGvciau/2GvlGqi5/vikxqus3QAdDRAfgviKEGcJcR8EGYgcLvjepBmPYp1a053gy3+CuDJqObwLZRhS9JkiSJovwByQJHhbd7qEkAAAAASUVORK5CYII=")
+  }
+</style>
 
 <body>
-  <div style="width:100px;height:calc(16px);background:#fff; border:2px solid black; position:  absolute;bottom: 1;left: 1; z-index: 10000000;cursor: pointer;" onclick="download()">Copy</div>
+  <div id="container">
+    <a href="javascript:void(0)" class="neu-button copy add-after" onclick="copy()">
+    </a>
+    <a href="javascript:void(0)" class="neu-button download add-after" onclick="downloadF()">
+    </a>
+  </div>
   <div style="width:100%;height:calc(100vh - 16px);background:#fff;">
     <div id="FamilyChart" class="f3"
       style="width:100%;height:100%;background-color:rgb(33,33,33);color:#fff;border-radius: 5px;"></div>
-
   </div>
   <script type="module">
 
@@ -38,24 +122,31 @@
         .setOnHoverPathToMain()
 
 
-      const f3EditTree = f3Chart.editTree()
-        .fixed(true)
-        .setFields(["first name", "last name", "birthday", "avatar"])
-        .setEditFirst(true)
-
-      f3EditTree.setEdit()
-
-      f3Card.setOnCardClick((e, d) => {
-        f3EditTree.open(d)
-        if (f3EditTree.isAddingRelative()) return
-        f3Card.onCardClickDefault(e, d)
-      })
 
       f3Chart.updateTree({ initial: true })
-      f3EditTree.open(f3Chart.getMainDatum())
-      f3EditTree.closeForm();
       f3Chart.updateTree({ initial: true })
-      window.f3EditTree = f3EditTree;
+      const urlParams = new URLSearchParams(window.location.search);
+      const hasEditParam = urlParams.has('edit');
+      if (hasEditParam) {
+        const f3EditTree = f3Chart.editTree()
+          .fixed(true)
+          .setFields(["first name", "last name", "birthday", "avatar"])
+          .setEditFirst(true)
+
+        f3EditTree.setEdit()
+
+        f3Card.setOnCardClick((e, d) => {
+          f3EditTree.open(d)
+          if (f3EditTree.isAddingRelative()) return
+          f3Card.onCardClickDefault(e, d)
+        })
+        f3EditTree.open(f3Chart.getMainDatum())
+        f3EditTree.closeForm();
+        window.f3EditTree = f3EditTree;
+
+        document.getElementById("container").style.display = "flex";
+
+      }
       window.f3Chart = f3Chart;
 
       const copyToClipboard = (text) => {
@@ -74,10 +165,14 @@
         link.click();
       };
 
-      window.download = () => {
+      window.copy = () => {
         const jsContent = `var dataJson = ${f3EditTree.getDataJson()}`;
         copyToClipboard(jsContent);
-        // downloadJSFile(jsContent, 'data.js');
+      }
+
+      window.downloadF = () => {
+        const jsContent = `var dataJson = ${f3EditTree.getDataJson()}`;
+        downloadJSFile(jsContent, 'data.js');
       }
     }
 
