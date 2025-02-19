@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Testing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            transform-origin: top center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .iframe-container {
+            border: 1px solid #ccc;
+            padding: 5px;
+            background: #f9f9f9;
+        }
+        iframe {
+            border: none;
+        }
+        input, button {
+            padding: 5px;
+            margin: 5px;
+        }
+    </style>
+    <script>
+        function updateIframes() {
+            const url = document.getElementById('urlInput').value;
+            localStorage.setItem('lastUrl', url);
+            document.querySelectorAll('iframe').forEach(iframe => {
+                iframe.src = url;
+            });
+        }
+
+        function updateZoom() {
+            const zoom = parseFloat(document.getElementById('zoomInput').value);
+            if (zoom >= 0.5 && zoom <= 2) {
+                localStorage.setItem('zoomLevel', zoom);
+                document.body.style.transform = `scale(${zoom})`;
+            }
+        }
+
+        window.onload = function() {
+            const lastUrl = localStorage.getItem('lastUrl');
+            if (lastUrl) {
+                document.getElementById('urlInput').value = lastUrl;
+                document.querySelectorAll('iframe').forEach(iframe => {
+                    iframe.src = lastUrl;
+                });
+            }
+            const zoomLevel = localStorage.getItem('zoomLevel') || 0.8;
+            document.getElementById('zoomInput').value = zoomLevel;
+            document.body.style.transform = `scale(${zoomLevel})`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Responsive Testing</h1>
+    <p>Enter a URL to preview your website in multiple resolutions</p>
+    <input type="text" id="urlInput" placeholder="Enter URL here" />
+    <button onclick="updateIframes()">Load</button>
+    <p>Zoom (0.5 - 2.0)</p>
+    <input type="number" id="zoomInput" step="0.1" min="0.5" max="2" value="0.8" />
+    <button onclick="updateZoom()">Apply Zoom</button>
+    <div class="container">
+        <div class="iframe-container">
+            <p>Desktop (1366x768)</p>
+            <iframe width="1366" height="768"></iframe>
+        </div>
+        <div class="iframe-container">
+            <p>Wide Screen (1920x1080)</p>
+            <iframe width="1920" height="1080"></iframe>
+        </div>
+        <div class="iframe-container">
+            <p>2K (2560x1440)</p>
+            <iframe width="2560" height="1440"></iframe>
+        </div>
+        <div class="iframe-container">
+            <p>4K (3840x2160)</p>
+            <iframe width="3840" height="2160"></iframe>
+        </div>
+        <div class="iframe-container">
+            <p>8K (7680x4320)</p>
+            <iframe width="7680" height="4320"></iframe>
+        </div>
+        <div class="iframe-container">
+            <p>Mobile (375x667)</p>
+            <iframe width="375" height="667"></iframe>
+        </div>
+        <div class="iframe-container">
+            <p>Tablet (768x1024)</p>
+            <iframe width="768" height="1024"></iframe>
+        </div>
+    </div>
+</body>
+</html>
