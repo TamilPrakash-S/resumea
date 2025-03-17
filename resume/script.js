@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setText("#name", data.name);
     setText("#title", data.title);
-    setText("#address", data.details.address);
     setText("#phone", data.details.phone);
     setText("#email", `<a href="mailto:${data.details.email}">${data.details.email}</a>`);
     
