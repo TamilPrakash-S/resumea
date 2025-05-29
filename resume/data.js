@@ -13,27 +13,28 @@ var data = {
     },
     "skills": {
         "WinForms": 85,
+        "ReactJs": 85,
+        "Node.js": 65,
+        "ReactThreeFiber": 85,
         "ThreeJS": 80,
         "C#": 90,
         "Git": 90,
         "HTML/CSS/JavaScript": 90,
         "MySQL": 75,
         "Docker": 70,
-        "React": 85,
-        "Node.js": 80,
         "Java": 65,
         "Unreal Engine": 20
     },
-    "profile": "Self-directed and professional programmer with almost 6+ years of experience in designing, developing, analyzing, and implementing desktop and web-based applications. Expertise in system designing as well as in debugging and modifying related application code.",
+    "profile": "Self-motivated and results-driven programmer with nearly 7+ years of hands-on experience in designing, developing, and maintaining robust desktop and web applications. Adept at system architecture, debugging, and enhancing application performance. Recognized for delivering clean, scalable code and driving projects from concept to completion with professionalism and precision.",
     "employmentHistory": [
         {
-            "position": "Sr. ThreeJs Developer",
+            "position": "Sr. Software Engineer",
             "company": "CloudWorx Studio · Remote",
             "date": "Jul 2023 - Present",
             "location": "Bengaluru, Karnataka, India · Remote",
             "tasks": [
                 "Specializing in dynamic, high-performance 3D web experiences.",
-                "Extensive experience with Three.js and React Three Fiber to build interactive, immersive 3D environments for the web.",
+                "Extensive experience with ReactJs and React Three Fiber to build interactive, immersive 3D environments for the web.",
                 "Expertise in custom shaders, geometry, lighting systems, and real-time 3D application optimization.",
                 "Skilled in delivering high-quality, efficient solutions across the entire 3D web stack with a strong focus on React-based workflows.",
                 "Passionate about pushing the boundaries of web development through innovative 3D graphics and React Three Fiber integrations.",
