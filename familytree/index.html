@@ -110,7 +110,7 @@
       const f3Chart = f3.createChart('#FamilyChart', data)
         .setTransitionTime(1000)
         .setCardXSpacing(250)
-        .setCardYSpacing(150)
+        .setCardYSpacing(300)
         .setOrientationVertical()
         .setSingleParentEmptyCard(true, { label: 'ADD' })
 
@@ -119,7 +119,7 @@
         .setCardDim({})
         .setMiniTree(true)
         .setStyle('imageRect')
-        .setOnHoverPathToMain()
+        .setOnHoverPathToMain().setCardDim({h:150}).setCardDim({w:150})
 
 
 
