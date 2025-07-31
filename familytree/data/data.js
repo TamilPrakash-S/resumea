@@ -26,7 +26,7 @@ var dataJson = [
       "gender": "F",
       "first name": "Sarojini",
       "last name": "",
-      "birthday": "1985",
+      "birthday": "08/10/1976",
       "avatar": ""
     },
     "rels": {
@@ -47,8 +47,8 @@ var dataJson = [
       "gender": "M",
       "first name": "Tamil Prakash",
       "last name": "",
-      "birthday": "1997",
-      "avatar": ""
+      "birthday": "06/09/1997",
+      "avatar": "images/tp.jpg"
     },
     "rels": {
       "father": "b04bb5ef-65ca-4224-9094-67097666a160",
@@ -67,8 +67,8 @@ var dataJson = [
       "gender": "F",
       "first name": "Sumithra",
       "last name": "",
-      "birthday": "1994",
-      "avatar": ""
+      "birthday": "20/10/1994",
+      "avatar": "images/sumi.jpg"
     },
     "rels": {
       "father": "b04bb5ef-65ca-4224-9094-67097666a160",
@@ -108,7 +108,7 @@ var dataJson = [
       "first name": "Ramasamy",
       "last name": "",
       "birthday": "",
-      "avatar": ""
+      "avatar": "images/appuchi.jpg"
     },
     "rels": {
       "children": [
@@ -127,7 +127,7 @@ var dataJson = [
     "id": "fa468051-d6c8-4fd5-b383-edd3e1c4559c",
     "data": {
       "gender": "M",
-      "first name": "Muthusamy",
+      "first name": "Muthusamy(Late)",
       "last name": "",
       "birthday": "",
       "avatar": ""
@@ -149,7 +149,7 @@ var dataJson = [
     "id": "03c74f55-95df-4e06-b35f-8605b50da0c9",
     "data": {
       "gender": "F",
-      "first name": "Valli",
+      "first name": "Valli(Late)",
       "last name": "",
       "birthday": "",
       "avatar": ""
@@ -214,8 +214,8 @@ var dataJson = [
       "gender": "M",
       "first name": "Jehan",
       "last name": "",
-      "birthday": "",
-      "avatar": ""
+      "birthday": "10/04/1988",
+      "avatar": "images/jehan.jpg"
     },
     "rels": {
       "spouses": [
@@ -234,8 +234,8 @@ var dataJson = [
       "gender": "F",
       "first name": "Layathika",
       "last name": "",
-      "birthday": "2018",
-      "avatar": ""
+      "birthday": "08/07/2018",
+      "avatar": "images/laya.jpg"
     },
     "rels": {
       "father": "9173d21a-3412-4429-aa83-7de89d525426",
@@ -248,7 +248,7 @@ var dataJson = [
       "gender": "F",
       "first name": "Sowmiya",
       "last name": "",
-      "birthday": "1999",
+      "birthday": "17/04/1999",
       "avatar": ""
     },
     "rels": {
@@ -372,7 +372,7 @@ var dataJson = [
     "id": "829a605b-4d19-43e9-a538-a7693c0e4161",
     "data": {
       "gender": "M",
-      "first name": "Gopal",
+      "first name": "Gopal(Late)",
       "last name": "",
       "birthday": "",
       "avatar": ""
@@ -447,7 +447,7 @@ var dataJson = [
       "first name": "Nikhalya",
       "last name": "",
       "birthday": "",
-      "avatar": ""
+      "avatar": "images/nighalya.jpg"
     },
     "rels": {
       "father": "3ff05003-84bb-4b08-b49b-e479d9baa022",
@@ -470,7 +470,9 @@ var dataJson = [
       "children": [
         "e2671ce6-5027-4835-b8fe-02ddd75e93f0",
         "31cda59a-b408-46e0-9be8-0d3371e836b8"
-      ]
+      ],
+      "father": "ff0a6365-b9ae-429b-8069-4a8bb482f7a0",
+      "mother": "6be47c27-1a57-412b-a3c2-207e574c82c3"
     }
   },
   {
@@ -581,7 +583,7 @@ var dataJson = [
     "id": "2af27e80-7604-4242-bec4-01e7625dc676",
     "data": {
       "gender": "M",
-      "first name": "UK",
+      "first name": "UK(Late)",
       "last name": "",
       "birthday": "",
       "avatar": ""
@@ -602,7 +604,7 @@ var dataJson = [
     "id": "a31b8823-5067-4abb-8980-d6a37c52dd13",
     "data": {
       "gender": "F",
-      "first name": "UK",
+      "first name": "UK(Late)",
       "last name": "",
       "birthday": "",
       "avatar": ""
@@ -799,7 +801,13 @@ var dataJson = [
     },
     "rels": {
       "father": "4c8a66fe-a4e1-4d65-87a0-58d39f2e18fd",
-      "mother": "8d1f16c8-754c-42ae-b5f6-fda35ff5e48b"
+      "mother": "8d1f16c8-754c-42ae-b5f6-fda35ff5e48b",
+      "spouses": [
+        "bbd6b6fc-bffe-4f2b-a8e1-dbd8153af33f"
+      ],
+      "children": [
+        "bccb76eb-d575-43b4-8344-8024e5d90384"
+      ]
     }
   },
   {
@@ -826,7 +834,7 @@ var dataJson = [
     "id": "bf8e5e70-537b-431e-adf2-6cbdf9ffc026",
     "data": {
       "gender": "M",
-      "first name": "Palanysami",
+      "first name": "Palanysami(Late)",
       "last name": "",
       "birthday": "",
       "avatar": ""
@@ -846,7 +854,7 @@ var dataJson = [
     "id": "9be28a59-a046-4259-b020-bd06cd5478ef",
     "data": {
       "gender": "F",
-      "first name": "Unknown",
+      "first name": "Unknown(Late)",
       "last name": "",
       "birthday": "",
       "avatar": ""
@@ -2175,7 +2183,7 @@ var dataJson = [
     "id": "afe0c828-e781-4a20-840b-fb889eecc4b3",
     "data": {
       "gender": "F",
-      "first name": "7valakaattu aatha",
+      "first name": "7valakaattu aatha(Late)",
       "last name": "",
       "birthday": "",
       "avatar": ""
@@ -2197,7 +2205,7 @@ var dataJson = [
     "id": "3e162ec1-583d-4c81-be00-e66c03e9945d",
     "data": {
       "gender": "M",
-      "first name": "UK",
+      "first name": "UK(Late)",
       "last name": "",
       "birthday": "",
       "avatar": ""
@@ -2649,10 +2657,10 @@ var dataJson = [
     "id": "bc21ef5e-136a-4ea5-a694-4ced1f44c7e9",
     "data": {
       "gender": "M",
-      "first name": "Not Decided",
+      "first name": "Aganethran",
       "last name": "",
       "birthday": "23/04/2025",
-      "avatar": ""
+      "avatar": "images/agan.jpg"
     },
     "rels": {
       "father": "1361350d-3910-4b97-b64a-fcd269ef9a5a",
@@ -2739,6 +2747,198 @@ var dataJson = [
     "rels": {
       "father": "26058a12-323d-4893-94ef-b49b566f569c",
       "mother": "433cc3bf-f7c7-4d82-98f0-3b3b1e468518"
+    }
+  },
+  {
+    "id": "bbd6b6fc-bffe-4f2b-a8e1-dbd8153af33f",
+    "data": {
+      "gender": "F",
+      "first name": "UK",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "spouses": [
+        "70691332-5ff6-4eab-a751-64dd3ef124aa"
+      ],
+      "children": [
+        "bccb76eb-d575-43b4-8344-8024e5d90384"
+      ]
+    }
+  },
+  {
+    "id": "bccb76eb-d575-43b4-8344-8024e5d90384",
+    "data": {
+      "gender": "F",
+      "first name": "UK",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "father": "70691332-5ff6-4eab-a751-64dd3ef124aa",
+      "mother": "bbd6b6fc-bffe-4f2b-a8e1-dbd8153af33f"
+    }
+  },
+  {
+    "id": "ff0a6365-b9ae-429b-8069-4a8bb482f7a0",
+    "data": {
+      "gender": "M",
+      "first name": "UK(Late)",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "children": [
+        "ada4628f-f0b6-4d58-a144-ab4d567842ea",
+        "17f406b6-60f5-489c-82a3-ed067818399d",
+        "36335d96-ebf5-4af8-9092-8a3e3d108061",
+        "cf1cb9db-0e56-4039-8d06-5b9b28a4f535"
+      ],
+      "spouses": [
+        "6be47c27-1a57-412b-a3c2-207e574c82c3"
+      ]
+    }
+  },
+  {
+    "id": "6be47c27-1a57-412b-a3c2-207e574c82c3",
+    "data": {
+      "gender": "F",
+      "first name": "UK(Late)",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "children": [
+        "ada4628f-f0b6-4d58-a144-ab4d567842ea",
+        "17f406b6-60f5-489c-82a3-ed067818399d",
+        "36335d96-ebf5-4af8-9092-8a3e3d108061",
+        "cf1cb9db-0e56-4039-8d06-5b9b28a4f535"
+      ],
+      "spouses": [
+        "ff0a6365-b9ae-429b-8069-4a8bb482f7a0"
+      ]
+    }
+  },
+  {
+    "id": "17f406b6-60f5-489c-82a3-ed067818399d",
+    "data": {
+      "gender": "M",
+      "first name": "UK",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "father": "ff0a6365-b9ae-429b-8069-4a8bb482f7a0",
+      "mother": "6be47c27-1a57-412b-a3c2-207e574c82c3"
+    }
+  },
+  {
+    "id": "36335d96-ebf5-4af8-9092-8a3e3d108061",
+    "data": {
+      "gender": "F",
+      "first name": "UK",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "father": "ff0a6365-b9ae-429b-8069-4a8bb482f7a0",
+      "mother": "6be47c27-1a57-412b-a3c2-207e574c82c3",
+      "spouses": [
+        "477aa5b4-fd03-4945-b3d5-0d240f885dd3"
+      ],
+      "children": [
+        "ca4657e9-8491-4362-8925-954e7859d56d"
+      ]
+    }
+  },
+  {
+    "id": "cf1cb9db-0e56-4039-8d06-5b9b28a4f535",
+    "data": {
+      "gender": "M",
+      "first name": "UK",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "father": "ff0a6365-b9ae-429b-8069-4a8bb482f7a0",
+      "mother": "6be47c27-1a57-412b-a3c2-207e574c82c3"
+    }
+  },
+  {
+    "id": "477aa5b4-fd03-4945-b3d5-0d240f885dd3",
+    "data": {
+      "gender": "M",
+      "first name": "UK",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "spouses": [
+        "36335d96-ebf5-4af8-9092-8a3e3d108061"
+      ],
+      "children": [
+        "ca4657e9-8491-4362-8925-954e7859d56d"
+      ]
+    }
+  },
+  {
+    "id": "ca4657e9-8491-4362-8925-954e7859d56d",
+    "data": {
+      "gender": "F",
+      "first name": "Rani Akka",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "father": "36335d96-ebf5-4af8-9092-8a3e3d108061",
+      "mother": "477aa5b4-fd03-4945-b3d5-0d240f885dd3",
+      "spouses": [
+        "9e74fb02-3315-467d-a131-c88033914099"
+      ],
+      "children": [
+        "d22a73a5-e938-40a5-ae83-b573df50a6a9"
+      ]
+    }
+  },
+  {
+    "id": "9e74fb02-3315-467d-a131-c88033914099",
+    "data": {
+      "gender": "M",
+      "first name": "UK",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "spouses": [
+        "ca4657e9-8491-4362-8925-954e7859d56d"
+      ],
+      "children": [
+        "d22a73a5-e938-40a5-ae83-b573df50a6a9"
+      ]
+    }
+  },
+  {
+    "id": "d22a73a5-e938-40a5-ae83-b573df50a6a9",
+    "data": {
+      "gender": "F",
+      "first name": "UK",
+      "last name": "",
+      "birthday": "",
+      "avatar": ""
+    },
+    "rels": {
+      "father": "ca4657e9-8491-4362-8925-954e7859d56d",
+      "mother": "9e74fb02-3315-467d-a131-c88033914099"
     }
   }
 ]

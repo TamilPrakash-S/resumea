@@ -1,6 +1,6 @@
 var data = {
     "name": "Tamil Prakash S",
-    "title": "Sr. ThreeJS Developer",
+    "title": "",
     "details": {
         "address": "1/77, Kulathupalayam, \nKandiankoil POST, \nTirupur - 641665. \n Tamil Nadu, India",
         "phone": "8883625557",
