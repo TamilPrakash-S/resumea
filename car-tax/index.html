@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Flexible Percent Calculator</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial;
+            margin: 32px;
+            background: #f7fafc;
+            color: #0f172a
+        }
+
+        .card {
+            max-width: 520px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06)
+        }
+
+        h1 {
+            font-size: 18px;
+            margin: 0 0 12px
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            margin-top: 12px
+        }
+
+        input[type=number] {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #e6edf3;
+            font-size: 15px
+        }
+
+        button {
+            margin-top: 14px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 0;
+            background: #0ea5a3;
+            color: white;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        .result {
+            display: flex;
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            font-size: 15px;
+            justify-content: space-around;
+        }
+
+        .small {
+            font-size: 13px;
+            color: #475569
+        }
+
+        footer {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 13px;
+            color: #94a3b8
+        }
+
+        .row {
+            display: flex;
+            gap: 8px
+        }
+
+        .muted {
+            color: #64748b
+        }
+
+        .left span {
+            color: red;
+        }
+
+        .right span {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Car Tax Percent Calculator</h1>
+
+        <label for="total">Current Ex Showroom</label>
+        <input id="total" type="number" step="any" value="805000" placeholder="e.g. 1,179,000" />
+
+        <label for="firstPercent">Current Tax</label>
+        <input id="firstPercent" type="number" step="any" value="28" />
+
+        <label for="secondPercent">New Tax</label>
+        <input id="secondPercent" type="number" step="any" value="18" />
+
+        <div class="row">
+            <button id="compute">Compute</button>
+            <button id="clear" style="background:#e2e8f0;color:#0f172a">Clear</button>
+        </div>
+        <div class="table">
+            <div id="output" class="result" aria-live="polite">
+                <div class="res col left" aria-live="polite">
+                    <div><strong>Current (original value):</strong> <span id="cval">—</span></div>
+                    <div style="margin-top:8px"><strong>X + <span id="csecondLabel"></span>% of X :</strong> <span
+                            id="cxplus">—</span></div>
+                    <div style="margin-top:8px"><strong>Road Tax:</strong> <span id="croadTax">—</span></div>
+                    <div style="margin-top:8px"><strong>On Road without reg:</strong> <span id="conRoad">—</span></div>
+                </div>
+                <div class="res col right" aria-live="polite">
+                    <div><strong>Current (original value):</strong> <span id="xval">—</span></div>
+                    <div style="margin-top:8px"><strong>X + <span id="secondLabel"></span>% of X :</strong> <span
+                            id="xplus">—</span></div>
+                    <div style="margin-top:8px"><strong>Road Tax:</strong> <span id="roadTax">—</span></div>
+                    <div style="margin-top:8px"><strong>On Road without reg:</strong> <span id="onRoad">—</span></div>
+                    <div style="margin-top:8px"><strong>Money Save:</strong> <span id="xdiff">—</span></div>
+                </div>
+                <div>
+                </div>
+
+                <script>
+
+                    function getTaxRate(exShowroomPrice) {
+                        let taxRate = 0;
+
+                        if (exShowroomPrice <= 500000) {
+                            taxRate = 0.12; // 12%
+                        } else if (exShowroomPrice <= 1000000) {
+                            taxRate = 0.13; // 13%
+                        } else if (exShowroomPrice <= 2000000) {
+                            taxRate = 0.18; // 18%
+                        } else {
+                            taxRate = 0.20; // 20%
+                        }
+                        return taxRate;
+                    }
+
+                    const total = document.getElementById('total');
+                    const firstPercent = document.getElementById('firstPercent');
+                    const secondPercent = document.getElementById('secondPercent');
+                    const compute = document.getElementById('compute');
+                    const clear = document.getElementById('clear');
+                    const output = document.getElementById('output');
+                    const xval = document.getElementById('xval');
+                    const xplus = document.getElementById('xplus');
+                    const xdiff = document.getElementById('xdiff');
+                    const secondLabel = document.getElementById('secondLabel');
+                    const roadTaxLabel = document.getElementById('roadTax');
+                    const onRoadLabel = document.getElementById('onRoad');
+
+
+                    const cval = document.getElementById('cval');
+                    const cplus = document.getElementById('cxplus');
+                    const csecondLabel = document.getElementById('csecondLabel');
+                    const croadTaxLabel = document.getElementById('croadTax');
+                    const conRoadLabel = document.getElementById('conRoad');
+
+                    function formatNumber(n) {
+                        if (!isFinite(n)) return 'Invalid input';
+                        return Number(n).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                    }
+
+                    compute.addEventListener('click', () => {
+                        const t = parseFloat(total.value);
+                        const p1 = parseFloat(firstPercent.value);
+                        const p2 = parseFloat(secondPercent.value);
+
+                        if (isNaN(t) || isNaN(p1) || isNaN(p2)) {
+                            alert('Please enter valid numbers for total and percentages');
+                            return;
+                        }
+
+                        // X + p1% of X = (1 + p1/100) * X
+                        const X = t / (1 + p1 / 100);
+                        const result = (1 + p2 / 100) * X;
+                        const diff = result - t;
+
+
+                        const roadTax = Math.abs(result * getTaxRate(result));
+
+                        const croadTax = Math.abs(t * getTaxRate(t));
+                        cval.textContent = formatNumber(X);
+                        csecondLabel.textContent = formatNumber(p1);
+                        croadTaxLabel.textContent = formatNumber(croadTax);
+                        conRoadLabel.textContent = formatNumber(Math.abs(t + croadTax));
+                        cplus.textContent = formatNumber(t);
+
+                        xval.textContent = formatNumber(X);
+                        xplus.textContent = formatNumber(result);
+                        xdiff.textContent = formatNumber(Math.abs(diff));
+                        roadTaxLabel.textContent = formatNumber(roadTax);
+                        onRoadLabel.textContent = formatNumber(Math.abs(result + roadTax));
+                        secondLabel.textContent = p2;
+                    });
+
+                    clear.addEventListener('click', () => {
+                        total.value = '';
+                        firstPercent.value = '28';
+                        secondPercent.value = '18';
+                    });
+
+                    total.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') compute.click();
+                    });
+                </script>
+</body>
+
+</html>
