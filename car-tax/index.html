@@ -117,14 +117,14 @@
                     <div style="margin-top:8px"><strong>X + <span id="csecondLabel"></span>% of X :</strong> <span
                             id="cxplus">—</span></div>
                     <div style="margin-top:8px"><strong>Road Tax:</strong> <span id="croadTax">—</span></div>
-                    <div style="margin-top:8px"><strong>On Road without reg:</strong> <span id="conRoad">—</span></div>
+                    <div style="margin-top:8px"><strong>On Road without reg(<span id="currentOnRoadPer"></span>%):</strong> <span id="conRoad">—</span></div>
                 </div>
                 <div class="res col right" aria-live="polite">
                     <div><strong>Current (original value):</strong> <span id="xval">—</span></div>
                     <div style="margin-top:8px"><strong>X + <span id="secondLabel"></span>% of X :</strong> <span
                             id="xplus">—</span></div>
                     <div style="margin-top:8px"><strong>Road Tax:</strong> <span id="roadTax">—</span></div>
-                    <div style="margin-top:8px"><strong>On Road without reg:</strong> <span id="onRoad">—</span></div>
+                    <div style="margin-top:8px"><strong>On Road without reg(<span id="newOnRoadPer"></span>%):</strong> <span id="onRoad">—</span></div>
                     <div style="margin-top:8px"><strong>Money Save:</strong> <span id="xdiff">—</span></div>
                 </div>
                 <div>
@@ -160,6 +160,9 @@
                     const roadTaxLabel = document.getElementById('roadTax');
                     const onRoadLabel = document.getElementById('onRoad');
 
+                    const currentOnRoadPer = document.getElementById('currentOnRoadPer');
+                    const newOnRoadPer = document.getElementById('newOnRoadPer');
+
 
                     const cval = document.getElementById('cval');
                     const cplus = document.getElementById('cxplus');
@@ -185,17 +188,22 @@
                         // X + p1% of X = (1 + p1/100) * X
                         const X = t / (1 + p1 / 100);
                         const result = (1 + p2 / 100) * X;
-                        const diff = result - t;
+                        const currentTaxRate = getTaxRate(t);
+                        const newTaxRate = getTaxRate(result);
 
+                        const roadTax = Math.abs(result * newTaxRate);
+                        const croadTax = Math.abs(t * currentTaxRate);
 
-                        const roadTax = Math.abs(result * getTaxRate(result));
+                        currentOnRoadPer.textContent = currentTaxRate * 100;
+                        newOnRoadPer.textContent = newTaxRate * 100;
 
-                        const croadTax = Math.abs(t * getTaxRate(t));
                         cval.textContent = formatNumber(X);
                         csecondLabel.textContent = formatNumber(p1);
                         croadTaxLabel.textContent = formatNumber(croadTax);
                         conRoadLabel.textContent = formatNumber(Math.abs(t + croadTax));
                         cplus.textContent = formatNumber(t);
+
+                        const diff =  Math.abs(result + roadTax) - Math.abs(t + croadTax);
 
                         xval.textContent = formatNumber(X);
                         xplus.textContent = formatNumber(result);
