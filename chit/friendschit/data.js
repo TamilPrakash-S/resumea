@@ -1,3 +1,10 @@
-const SPREADSHEET_ID = '1ifewhEU-s_vH_pmEheliBO8fjZoqF5WWcfYaVXppeXg';
+const SPREADSHEET_ID = '1wxKU-NP7doGoJoBuPeqBiJbT08D8VL4lQaNeSgzydcw';
 const API_KEY = 'AIzaSyCOZfEdoOp5dzfHJITXRvjbP3VOMwZbujc';
-const RANGE = 'ChitAdmin!B19:E28';
+
+const params = new URLSearchParams(window.location.search);
+
+const CHITNAME = params.get('name');
+
+const RANGE = CHITNAME+'!B3:E12';
+
+document.getElementById("title").innerHTML = CHITNAME + " Dashboard";

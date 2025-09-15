@@ -24,16 +24,19 @@ h1 {
   margin: 20px;
 }
 
-.card {
-  flex: 1;
-  min-width: 150px;
+.cards {
+  display: flex;
+  flex-wrap: wrap;      /* allows cards to wrap to next line on smaller screens */
+  gap: 20px;            /* spacing between cards */
+  justify-content: center; /* center cards horizontally */
   padding: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
 .card {
+  flex: 1 1 200px;      /* grow, shrink, base width */
+  min-width: 150px;     /* prevents cards from shrinking too small */
+  max-width: 300px;     /* optional: restrict maximum size */
+  padding: 20px;
   background: rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(1px);
   border-radius: 10px;
@@ -42,10 +45,19 @@ h1 {
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 -1px 0 rgba(255, 255, 255, 0.1),
     inset 0 0 2px 1px rgba(255, 255, 255, 0.1);
-  position: relative;
+  text-align: center;
   overflow: hidden;
 }
 
+/* Optional: make text smaller on very small screens */
+@media (max-width: 400px) {
+  .card h2 {
+    font-size: 16px;
+  }
+  .card h1 {
+    font-size: 24px;
+  }
+}
 .glass-card::before {
   content: '';
   position: absolute;

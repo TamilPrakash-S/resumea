@@ -21,11 +21,29 @@
             <a href="/chit/spinner.html" class="nav-item">Chit Selector</a>
         </nav>
 
-        <h1>Current Manager</h1>
-        <nav>
-            <a href="/chit/friendschit?name=friendsChit" class="nav-item">Friends Chit</a>
-        </nav>
+        <h1>Current Running Chit</h1>
+        <nav id="nav"></nav>
+        <div id="content"></div>
+
+        <script>
+            const nav = document.getElementById('nav');
+            const chitNames = ["FriendsChit"];
+
+            // Create links
+            chitNames.forEach(name => {
+                const link = document.createElement('a');
+                link.href = `/chit/friendschit/?name=${encodeURIComponent(name)}`;
+                link.className = 'nav-item';
+                link.textContent = name;
+
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+
+                nav.appendChild(link);
+            });
+        </script>
     </div>
+
 </body>
 
 </html>
