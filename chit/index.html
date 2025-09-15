@@ -2,286 +2,30 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Friend's Chit Fund Spin Wheel</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-color: #e0e5ec;
-      --main-color: #212529;
-      --highlight-color: #ffffff;
-      --lowlight-color: #a3b1c6;
-      --primary-accent: #3498db;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: var(--bg-color);
-      margin: 0;
-      color: var(--main-color);
-      transition: background 0.3s ease;
-    }
-
-    h1 {
-      color: var(--primary-accent);
-      text-shadow: none;
-      font-size: 3em;
-      margin-bottom: 20px;
-      letter-spacing: 1px;
-    }
-
-    .main-container {
-      background: var(--bg-color);
-      border-radius: 20px;
-      padding: 40px 50px;
-      box-shadow: 10px 10px 20px var(--lowlight-color),
-        -10px -10px 20px var(--highlight-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .input-box {
-      margin: 15px 0;
-      text-align: center;
-    }
-
-    textarea {
-      width: 400px;
-      height: 100px;
-      border-radius: 15px;
-      padding: 15px;
-      font-size: 18px;
-      border: none;
-      outline: none;
-      background: var(--bg-color);
-      color: var(--main-color);
-      box-shadow: inset 2px 2px 5px var(--lowlight-color),
-        inset -5px -5px 10px var(--highlight-color);
-      transition: all 0.3s ease;
-      resize: none;
-    }
-
-    textarea:focus {
-      box-shadow: inset 1px 1px 2px var(--lowlight-color),
-        inset -2px -2px 4px var(--highlight-color);
-    }
-
-    .button-group {
-      display: flex;
-      gap: 20px;
-      margin-top: 15px;
-    }
-
-    button {
-      padding: 15px 30px;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 18px;
-      color: var(--main-color);
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      background: var(--bg-color);
-      box-shadow: 4px 4px 8px var(--lowlight-color),
-        -4px -4px 8px var(--highlight-color);
-    }
-
-    button:hover {
-      box-shadow: 2px 2px 4px var(--lowlight-color),
-        -2px -2px 4px var(--highlight-color);
-      transform: translateY(-1px);
-    }
-
-    button:active {
-      box-shadow: inset 2px 2px 5px var(--lowlight-color),
-        inset -5px -5px 10px var(--highlight-color);
-      transform: translateY(1px);
-    }
-
-    .wheel-container {
-      position: relative;
-      margin-top: 50px;
-      background: var(--bg-color);
-      border-radius: 50%;
-      padding: 25px;
-      box-shadow: inset 8px 8px 16px var(--lowlight-color),
-        inset -8px -8px 16px var(--highlight-color);
-    }
-
-    canvas {
-      border-radius: 50%;
-      display: block;
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1),
-        -5px -5px 10px rgba(255, 255, 255, 0.7);
-    }
-
-    .pointer {
-      position: absolute;
-      top: 0px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 25px solid transparent;
-      border-right: 25px solid transparent;
-      border-top: 40px solid var(--primary-accent);
-      z-index: 10;
-    }
-
-    .result-box {
-      margin-top: 40px;
-      padding: 25px 35px;
-      border-radius: 15px;
-      background: var(--bg-color);
-      font-size: 26px;
-      font-weight: bold;
-      color: var(--primary-accent);
-      box-shadow: 6px 6px 12px var(--lowlight-color),
-        -6px -6px 12px var(--highlight-color);
-      min-width: 300px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
-
-    .result-box.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chit Manager</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>Friend's Chit Fund Spin Wheel 🎡</h1>
-  <div class="main-container">
-    <div class="input-box">
-      <p style="color:var(--main-color);font-weight:600; text-shadow: none;">Enter names (comma separated):</p>
-      <textarea id="namesInput">Praveen,Vicky,Sathis,Nandha,Karthi,Sumi,Praveen2,Saravana,Selva,Tamil</textarea>
-      <div class="button-group">
-        <button onclick="setupWheel()">Set Names</button>
-        <button onclick="spinWheel()">Spin 🎯</button>
-      </div>
+    <div class="container">
+
+        <main class="glass-main">
+            <h1 class="main-title">Chit Navigator</h1>
+        </main>
+
+        <h1>Chit Guidelines</h1>
+        <nav>
+            <a href="/chit/details/" class="nav-item">Chit Details</a>
+            <a href="/chit/spinner.html" class="nav-item">Chit Selector</a>
+        </nav>
+
+        <h1>Current Manager</h1>
+        <nav>
+            <a href="/chit/friendschit?name=friendsChit" class="nav-item">Friends Chit</a>
+        </nav>
     </div>
-  </div>
-  <div class="wheel-container">
-    <div class="pointer"></div>
-    <canvas id="wheelCanvas" width="500" height="500"></canvas>
-  </div>
-  <div id="resultBox" class="result-box">Chit Holder: -</div>
-  <script>
-    const canvas = document.getElementById("wheelCanvas");
-    const ctx = canvas.getContext("2d");
-    const resultBox = document.getElementById("resultBox");
-    let names = ["Praveen", "Vicky", "Sathis", "Nandha", "Karthi", "Sumi", "Praveen2", "Saravana", "Selva", "Tamil"];
-    let startAngle = 0;
-    let arc = 0;
-    let spinning = false;
-    let spinTimeout = null;
-    let spinAngle = 0;
-    let spinTime = 0;
-    let spinDuration = 0;
-    const colors = [
-      "#3498db", "#2ecc71", "#e74c3c", "#f39c12",
-      "#9b59b6", "#1abc9c", "#e67e22", "#c0392b",
-      "#34495e", "#2980b9"
-    ];
-
-    function setupWheel() {
-      const input = document.getElementById("namesInput").value;
-      names = input.split(",").map(n => n.trim()).filter(n => n);
-      drawWheel();
-      resultBox.classList.remove("show");
-      resultBox.textContent = "Chit Holder: -";
-    }
-
-    function drawWheel() {
-      const wheelCenterX = canvas.width / 2;
-      const wheelCenterY = canvas.height / 2;
-      const wheelRadius = wheelCenterX;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      arc = Math.PI * 2 / names.length;
-
-      for (let i = 0; i < names.length; i++) {
-        const angle = startAngle + i * arc;
-
-        // Draw slice
-        ctx.beginPath();
-        ctx.fillStyle = colors[i % colors.length];
-        ctx.moveTo(wheelCenterX, wheelCenterY);
-        ctx.arc(wheelCenterX, wheelCenterY, wheelRadius, angle, angle + arc);
-        ctx.fill();
-
-        // Draw text
-        ctx.save();
-        ctx.fillStyle = "white";
-        ctx.font = "bold 20px Poppins";
-        ctx.textAlign = "center";
-
-        const textRadius = wheelRadius * 0.75;
-        ctx.translate(
-          wheelCenterX + Math.cos(angle + arc / 2) * textRadius,
-          wheelCenterY + Math.sin(angle + arc / 2) * textRadius
-        );
-
-        ctx.rotate(angle + arc / 2 + Math.PI / 2);
-        ctx.fillText(names[i], 0, 0);
-        ctx.restore();
-      }
-    }
-
-    function spinWheel() {
-      if (spinning) return;
-      spinning = true;
-      resultBox.classList.remove("show");
-      spinAngle = Math.random() * 2000 + 3000;
-      spinTime = 0;
-      spinDuration = 4000 + Math.random() * 2000;
-      rotate();
-    }
-
-    function rotate() {
-      spinTime += 30;
-      if (spinTime >= spinDuration) {
-        stopRotate();
-        return;
-      }
-      const spinEase = easeOut(spinTime, 0, spinAngle, spinDuration);
-      startAngle += (spinEase * Math.PI / 180);
-      drawWheel();
-      spinTimeout = requestAnimationFrame(rotate);
-    }
-
-    function stopRotate() {
-      spinning = false;
-      cancelAnimationFrame(spinTimeout);
-      const degrees = startAngle * 180 / Math.PI + 90;
-      const arcd = arc * 180 / Math.PI;
-      const index = Math.floor((360 - (degrees % 360)) / arcd) % names.length;
-      const chosen = names[index];
-      resultBox.textContent = "Chit Holder: " + chosen;
-      resultBox.classList.add("show");
-    }
-
-    function easeOut(t, b, c, d) {
-      const ts = (t /= d) * t;
-      const tc = ts * t;
-      return b + c * (tc + -3 * ts + 3 * t);
-    }
-
-    setupWheel();
-  </script>
 </body>
 
 </html>

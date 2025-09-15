@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chit Details</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Chit Details</h1>
+    </header>
+
+    <!-- Summary Cards -->
+    <section class="cards">
+        <div class="card">
+            <h2>Total Members</h2>
+            <h1>10</h1>
+        </div>
+        <div class="card">
+            <h2>Total Months</h2>
+            <h1>10</h1>
+        </div>
+        <div class="card">
+            <h2>Monthly Amount Before Claim</h2>
+            <h1>1000</h1>
+        </div>
+        <div class="card">
+            <h2>Monthly Amount After Claim</h2>
+            <h1 style="color: crimson;">1100</h1>
+        </div>
+    </section>
+    <!-- Table -->
+    <section class="table-section">
+        <h2>Chit Details</h2>
+        <div id="table-container">
+            <table id="chit-data">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Claimable Amount</th>
+                        <th>P/L</th>
+                        <th>Total Amount To Pay(After Claim)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <section class="rules-section">
+        <div class="rules-card card">
+            <h2>📌 Monthly Chit Rules 📌</h2>
+            <ul>
+                <li>
+                    <span>1️⃣ Payment Deadline:</span><br>
+                    💰 Everyone must pay the chit amount before the <b>specified date</b> of every month to Admin.
+                </li>
+                <li>
+                    <span>2️⃣ Claiming the Chit Amount:</span><br>
+                    📅 If you want to claim the chit amount for the month, inform this group between the <b>specified
+                        date</b>.
+                </li>
+                <li>
+                    <span>3️⃣ No Claimants?</span><br>
+                    🎯 If no one claims, a random person will be selected and must accept the chit amount.
+                </li>
+                <li>
+                    <span>4️⃣ Multiple Claimants?</span><br>
+                    🎲 If more than one person wants to claim in the same month, one will be chosen at random.
+                </li>
+            </ul>
+            <p class="footer-note">✅ Stay on time. Stay informed. Let’s keep things smooth!</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Friend's Chit | Managed by Tamil Prakash</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

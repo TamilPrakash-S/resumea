@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend's Chit Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Friend's Chit Dashboard</h1>
+    </header>
+
+    <!-- Summary Cards -->
+    <section class="cards">
+        <div class="card">
+            <h2>Total Members</h2>
+            <p id="total-members">0</p>
+        </div>
+        <div class="card">
+            <h2>Total Amount</h2>
+            <p id="total-amount">0</p>
+        </div>
+        <div class="card">
+            <h2>Months Completed</h2>
+            <p id="months-completed">0</p>
+        </div>
+    </section>
+
+    <!-- Table -->
+    <section class="table-section">
+        <h2>Chit Details</h2>
+        <div id="table-container">
+            <table id="chit-data">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Month</th>
+                        <th>Amount</th>
+                        <th>Claimed By</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+    <!-- Charts Section -->
+    <section class="charts">
+        <div class="chart-container">
+            <h2>Amount Growth</h2>
+            <canvas id="lineChart"></canvas>
+        </div>
+        <div class="chart-container doughnutChart">
+            <h2>Claims Distribution</h2>
+            <canvas id="doughnutChart"></canvas>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>© 2025 Friend's Chit | Managed by Tamil Prakash</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

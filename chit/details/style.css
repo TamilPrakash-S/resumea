@@ -1,0 +1,187 @@
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    /* This is the overlay */
+    url(./bg.png);
+  /* Your original background image */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+  margin: 20px;
+}
+
+.card {
+  flex: 1;
+  min-width: 150px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(1px);
+  border-radius: 10px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 2px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.8),
+      transparent);
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.8),
+      transparent,
+      rgba(255, 255, 255, 0.3));
+}
+
+.charts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px;
+  width: 90%;
+}
+
+.chart-container {
+  flex: 1;
+  max-width: 30%;
+  height: 400px;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.chart-container.doughnutChart canvas {
+  max-height: 300px;
+}
+
+.table-section {
+  width: 90%;
+  margin: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 15px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: center;
+}
+
+thead tr {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+footer {
+  margin: 30px 0;
+  font-size: 14px;
+}
+
+.rules-section {
+  width: 90%;
+  margin: 30px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.rules-card {
+  max-width: 700px;
+  padding: 25px;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.rules-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.rules-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rules-card li {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-left: 4px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.rules-card li span {
+  font-weight: bold;
+  color: #ffd369;
+}
+
+.footer-note {
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #a6ffcb;
+}
