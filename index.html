@@ -195,6 +195,17 @@
       }
     }
 
+    /* cursor-follow glow */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(420px circle at var(--gx, 50%) var(--gy, 50%), rgba(0, 212, 170, .07), transparent 60%);
+      transition: background .15s ease-out;
+      z-index: 0;
+    }
+
     .hero-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -230,9 +241,30 @@
     }
 
     .hero-text h1 .last {
-      background: var(--grad);
+      background: linear-gradient(135deg, #00d4aa, #7c3aed, #3b82f6, #00d4aa);
+      background-size: 300% 300%;
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
+      animation: nameShift 6s ease-in-out infinite;
+    }
+
+    @keyframes nameShift {
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    /* scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      background: var(--grad);
+      z-index: 200;
+      box-shadow: 0 0 10px rgba(0, 212, 170, .5);
     }
 
     .hero-text .tagline {
@@ -331,57 +363,145 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      perspective: 1100px;
     }
 
-    .profile-ring {
+    /* 3D mouse-tilt profile card */
+    .tilt-scene {
       position: relative;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
+      width: 320px;
+      height: 440px;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .tilt-scene::before {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      border-radius: 40px;
       background: var(--grad);
-      padding: 4px;
-      animation: ringRotate 6s linear infinite;
+      filter: blur(34px);
+      opacity: .5;
+      z-index: -2;
+      transform: translateZ(-80px);
+      animation: glowPulse 5s ease-in-out infinite alternate;
     }
 
-    /* @keyframes ringRotate {
+    @keyframes glowPulse {
       to {
-        filter: hue-rotate(360deg);
-      }
-    } */
-
-    @keyframes ringRotate {
-
-      0%,
-      100% {
-        box-shadow: 0 0 5px #00f, 0 0 10px #00f;
-      }
-
-      50% {
-        box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+        opacity: .8;
+        filter: blur(46px);
       }
     }
 
-    .profile-ring img {
+    .tilt-card {
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      background: linear-gradient(160deg, rgba(0, 212, 170, .15), rgba(124, 58, 237, .15));
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(255, 255, 255, .05);
+    }
+
+    .tilt-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 50%;
-      border: 4px solid var(--bg);
       display: block;
+      transform: translateZ(0);
     }
 
-    .profile-ring::after {
+    /* moving glare that follows the cursor */
+    .tilt-glare {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: 28px;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .35), transparent 45%);
+      mix-blend-mode: overlay;
+      opacity: 0;
+      transition: opacity .35s;
+    }
+
+    /* gradient sheen at bottom for text legibility */
+    .tilt-card::after {
       content: '';
       position: absolute;
-      inset: -12px;
-      border-radius: 50%;
-      border: 2px dashed rgba(0, 212, 170, .2);
-      animation: spin 20s linear infinite;
+      inset: 0;
+      border-radius: 28px;
+      background: linear-gradient(180deg, transparent 55%, rgba(10, 10, 15, .65));
+      pointer-events: none;
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
+    /* floating parallax badges */
+    .float-badge {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .6rem .9rem;
+      background: rgba(18, 18, 26, .82);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--text);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .45);
+      white-space: nowrap;
+      transform: translateZ(var(--depth, 40px));
+    }
+
+    .float-badge i {
+      font-size: 1.05rem;
+    }
+
+    .badge-stack {
+      top: -18px;
+      left: -34px;
+    }
+
+    .badge-stack i {
+      color: var(--accent);
+    }
+
+    .badge-exp {
+      bottom: 24px;
+      right: -40px;
+    }
+
+    .badge-exp i {
+      color: var(--accent2);
+    }
+
+    .badge-status {
+      top: 60px;
+      right: -26px;
+    }
+
+    .badge-status i {
+      color: var(--accent3);
+    }
+
+    .badge-status .live-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, .7);
+      animation: livePulse 1.8s infinite;
+    }
+
+    @keyframes livePulse {
+      70% {
+        box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
       }
     }
 
@@ -390,9 +510,21 @@
         order: -1;
       }
 
-      .profile-ring {
-        width: 220px;
-        height: 220px;
+      .tilt-scene {
+        width: 250px;
+        height: 350px;
+      }
+
+      .badge-stack {
+        left: -12px;
+      }
+
+      .badge-exp {
+        right: -14px;
+      }
+
+      .badge-status {
+        right: -10px;
       }
     }
 
@@ -440,8 +572,8 @@
       content: '';
       position: absolute;
       left: 8px;
-      top: 0;
-      bottom: 0;
+      top: .9rem;
+      bottom: .9rem;
       width: 2px;
       background: linear-gradient(180deg, var(--accent), var(--accent2), var(--accent3));
       border-radius: 2px;
@@ -455,6 +587,10 @@
       transition: all .6s ease;
     }
 
+    .tl-item:last-child {
+      margin-bottom: 0;
+    }
+
     .tl-item.visible {
       opacity: 1;
       transform: translateX(0);
@@ -462,14 +598,16 @@
 
     .tl-dot {
       position: absolute;
-      left: -2.5rem;
-      top: .35rem;
+      /* center the dot exactly on the line (line center = 9px from timeline edge) */
+      left: calc(9px - 2.5rem);
+      top: .9rem;
       width: 18px;
       height: 18px;
       border-radius: 50%;
       background: var(--bg);
       border: 3px solid var(--accent);
       box-shadow: 0 0 12px rgba(0, 212, 170, .3);
+      transform: translate(-50%, -50%);
       z-index: 1;
     }
 
@@ -718,6 +856,9 @@
 </head>
 
 <body>
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
   <!-- Particles -->
   <div class="particles" id="particles"></div>
 
@@ -744,7 +885,7 @@
         <h1>Tamil Prakash <span class="last">S</span></h1>
         <p class="tagline">a&nbsp;<span class="typed" id="typedText">PROGRAMMER</span><span
             class="cursor-blink">|</span></p>
-        <p class="bio">Self-motivated and highly skilled programmer with over <strong id="expYears">6+</strong> years of
+        <p class="bio">Self-motivated and highly skilled programmer with over <strong id="expYears">8+</strong> years of
           experience in designing, developing, and implementing desktop & web-based applications. Specializes in
           crafting high-performance 3D web experiences, with a proven ability to debug, optimize, and enhance complex
           application code.</p>
@@ -758,7 +899,15 @@
         </div>
       </div>
       <div class="hero-img-wrap">
-        <div class="profile-ring"><img src="img/profile.png" alt="Tamil Prakash S"></div>
+        <div class="tilt-scene" id="tiltScene">
+          <div class="tilt-card">
+            <img src="img/Tamil%20Prakash.png" alt="Tamil Prakash S">
+            <div class="tilt-glare" id="tiltGlare"></div>
+          </div>
+          <div class="float-badge badge-stack" style="--depth:70px"><i class="devicon-threejs-original"></i> Three JS</div>
+          <div class="float-badge badge-exp" style="--depth:55px"><i class="fa-solid fa-code"></i> 8+ yrs experience</div>
+          <div class="float-badge badge-status" style="--depth:90px"><i class="fa-solid fa-location-dot"></i> Tamil Nadu, India</div>
+        </div>
       </div>
     </div>
   </section>
@@ -942,7 +1091,60 @@
       const sc = window.scrollY;
       n.style.transform = sc > lastSc && sc > 80 ? 'translateY(-100%)' : 'translateY(0)';
       lastSc = sc;
+      // scroll progress bar
+      const bar = document.getElementById('scrollProgress');
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (h > 0 ? (sc / h) * 100 : 0) + '%';
     });
+
+    // ─── Mouse-tilt profile photo (3D parallax) ───
+    (function () {
+      const scene = document.getElementById('tiltScene');
+      const glare = document.getElementById('tiltGlare');
+      if (!scene) return;
+      const MAX = 18;            // max tilt in degrees
+      let tx = 0, ty = 0;        // target rotation
+      let cx = 0, cy = 0;        // current (eased) rotation
+
+      window.addEventListener('mousemove', (e) => {
+        // normalize cursor to viewport center → smooth, page-wide reaction
+        const nx = e.clientX / window.innerWidth - 0.5;
+        const ny = e.clientY / window.innerHeight - 0.5;
+        ty = nx * 2 * MAX;       // rotateY follows horizontal
+        tx = ny * -2 * MAX;      // rotateX follows vertical
+        // glare position relative to the card itself
+        if (glare) {
+          const r = scene.getBoundingClientRect();
+          const gx = Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100));
+          const gy = Math.max(0, Math.min(100, ((e.clientY - r.top) / r.height) * 100));
+          glare.style.setProperty('--mx', gx + '%');
+          glare.style.setProperty('--my', gy + '%');
+          glare.style.opacity = .65;
+        }
+      });
+
+      document.querySelector('.hero-img-wrap').addEventListener('mouseleave', () => {
+        if (glare) glare.style.opacity = 0;
+      });
+
+      (function raf() {
+        cx += (tx - cx) * 0.12;
+        cy += (ty - cy) * 0.12;
+        scene.style.transform = 'rotateX(' + cx.toFixed(2) + 'deg) rotateY(' + cy.toFixed(2) + 'deg)';
+        requestAnimationFrame(raf);
+      })();
+    })();
+
+    // ─── Cursor-follow glow on hero ───
+    (function () {
+      const hero = document.getElementById('hero');
+      if (!hero) return;
+      hero.addEventListener('mousemove', (e) => {
+        const r = hero.getBoundingClientRect();
+        hero.style.setProperty('--gx', (e.clientX - r.left) + 'px');
+        hero.style.setProperty('--gy', (e.clientY - r.top) + 'px');
+      });
+    })();
   </script>
 </body>
 
