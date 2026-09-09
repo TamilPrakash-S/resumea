@@ -5,81 +5,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Tamil Prakash's Family Tree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="./d3.js"></script>
   <script type="module" src="./family-chart/family-chart.min.js"></script>
   <script src="./data/data.js"></script>
   <link rel="stylesheet" href="./family-chart/family-chart.min.css">
 </head>
 <style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+    background-color: #0f172a; /* Clean, premium dark slate */
+    background-image: radial-gradient(circle at top right, #1e293b, #0f172a 70%);
+    color: #f8fafc;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Enhanced Glassmorphism Container */
   #container {
     display: none;
     position: absolute;
     z-index: 1000;
-    top: 20px;
-    left: 20px;
-    margin: auto;
-    padding: .1rem;
-    border-radius: .8rem;
-    border: 1px solid #dadada;
-    background-color: #dadada;
-    box-shadow:
-      -.1rem -.1rem .4rem #eee,
-      .1rem 0 .8rem #dadada,
-      .1rem .1rem .4rem #777,
-      -.17rem -.17rem .2rem transparent inset,
-      .2rem .2rem .2rem transparent inset
+    top: 24px;
+    left: 24px;
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    gap: 16px;
   }
 
   .neu-button {
-    will-change: box-shadow;
-    transition: .4s box-shadow;
-    padding: .3rem;
-    border-radius: .8rem;
-    width: 2rem;
-    height: 2rem;
-    border: 1px solid #dadada;
-    background-color: #dadada;
-    margin: .4rem;
-    box-shadow:
-      -.17rem -.17rem .2rem #eee9,
-      .1rem 0 .4rem #dadada99,
-      .2rem .2rem .2rem #777,
-      -.17rem -.17rem .2rem #eee inset,
-      .2rem .2rem .2rem #dadada inset;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
 
   .neu-button:hover {
-    will-change: box-shadow;
-    transition: .4s box-shadow;
-    box-shadow:
-      -.17rem -.17rem .2rem transparent,
-      0rem 0 .4rem transparent,
-      0rem 0rem 0rem -.1rem #777,
-      -.17rem -.17rem .2rem #efefef inset,
-      .2rem .2rem .2rem #dadada inset;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
-  .neu-button:active::after {
-    filter: invert(10%);
-    will-change: filter;
-    transition: .4s all;
+  .neu-button:active {
+    transform: translateY(0);
   }
-
-
 
   .add-after::after {
     content: "";
     display: block;
-    width: 83%;
-    height: 83%;
-    background-size: 100% 100% !important;
-    will-change: filter;
-    transition: .4s all;
-    filter: invert(0%);
+    width: 55%;
+    height: 55%;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    transition: all 0.3s ease;
+    filter: invert(90%) sepia(10%) saturate(100%) hue-rotate(180deg) brightness(100%) contrast(100%);
+  }
+
+  .neu-button:hover.add-after::after {
+    filter: invert(100%) drop-shadow(0 0 8px rgba(255,255,255,0.5));
+    transform: scale(1.15);
   }
 
   .copy::after {
@@ -87,20 +90,58 @@
   }
 
   .download::after {
-    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAACWklEQVR4nO3cO2hUURCH8U9FEUEQC0EwhYWIijY2giIIgqj4ADs7Szs7W0tLO0urWEh8VmpjY2WhhY2FhRgRQVTc+IyPkQs3hZKYze4m59xzvh9MExKY85872WX37oIkSZIk5WkMmAB6QMxTze/cALambrqk8N/1Efy/1fzNptTNl2BigPBn6lrq5kvQG2IAH1M3X4IYsuQAui3cAAdQtXADHEDVwg1wAFULN8ABVC3cAAdQtXADHEDVwg1wAFULN8ABVC3cAAdQtXADHEDVwg1wAFULN8ABVC3cAAdQtXADHEDVwg1wAJ12FHg1gis5lrgmgcMUYDKDMGPAekkBHEBiJ4DpDK7mWGB9B45TiCPAlwxCjT7rG3CSwuxvP7UYmdcn4CCF2g28zSDkmKPeA3so3PZMn5a+AXZRic3A8wxCn6kXwBYqsxF4mkH4z9rvo6jSBuBJwvAftz1UbR3wMEH4j4D1qQ+fizXAvSUM/wGwNvWhc7MKuL4E4d8BVqc+bK5WAFcWMfxxYGXqQ+ZuGXBpEcK/DCxPfbguuTDC8C+mPkxXnTf89M4CvwYYxG/gXOrmS3Ea+LGA8H8CZ1I3XZpjwNc+30g5lbrZUh0Apv4T/mfgUOomS7cP+DBL+M3P9qZurhZjwFXgdVvjNb+iKUmSJEmSpLLsaG/n6MLt5ZG4moxutzchj8TOeV6Dt5g1g6k2u6HdN2QGvciau/2GvlGqi5/vikxqus3QAdDRAfgviKEGcJcR8EGYgcLvjepBmPYp1a053gy3+CuDJqObwLZRhS9JkiSJovwByQJHhbd7qEkAAAAASUVORK5CYII=")
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAACWklEQVR4nO3cO2hUURCH8U9FEUEQC0EwhYWIijY2giIIgqj4ADs7Szs7W0tLO0urWEh8VmpjY2WhhY2FhRgRQVTc+IyPkQs3hZKYze4m59xzvh9MExKY85872WX37oIkSZIk5WkMmAB6QMxTze/cALambrqk8N/1Efy/1fzNptTNl2BigPBn6lrq5kvQG2IAH1M3X4IYsuQAui3cAAdQtXADHEDVwg1wAFULN8ABVC3cAAdQtXADHEDVwg1wAFULN8ABVC3cAAdQtXADHEDVwg1wAFULN8ABVC3cAAdQtXADHEDVwg1wAJ12FHg1gis5lrgmgcMUYDKDMGPAekkBHEBiJ4DpDK7mWGB9B45TiCPAlwxCjT7rG3CSwuxvP7UYmdcn4CCF2g28zSDkmKPeA3so3PZMn5a+AXZRic3A8wxCn6kXwBYqsxF4mkH4z9rvo6jSBuBJwvAftz1UbR3wMEH4j4D1qQ+ZuGXBpEcK/DCxPfbguuTDC8C+mPkxXnTf89M4CvwYYxG/gXOrmS3Ea+LGA8H8CZ1I3XZpjwNc+30g5lbrZUh0Apv4T/mfgUOomS7cP+DBL+M3P9qZurhZjwFXgdVvjNb+iKUmSJEmSpLLsaG/n6MLt5ZG4moxutzchj8TOeV6Dt5g1g6k2u6HdN2QGvciau/2GvlGqi5/vikxqus3QAdDRAfgviKEGcJcR8EGYgcLvjepBmPYp1a053gy3+CuDJqObwLZRhS9JkiSJovwByQJHhbd7qEkAAAAASUVORK5CYII=")
+  }
+
+  .chart-wrapper {
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+  }
+
+  #FamilyChart {
+    width: 100%;
+    height: 100%;
+    background-color: transparent !important;
+    color: #f8fafc;
+  }
+
+  /* Override family-chart card styles for Glassmorphism */
+  .f3 div.card .card-inner {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2) !important;
+    color: #ffffff !important;
+    border-radius: 16px !important;
+    border-bottom: 4px solid var(--color) !important;
+  }
+
+  .f3 div.card .card-inner img, 
+  .f3 div.card .person-icon {
+    border: 2px solid var(--color) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .f3 .card-label div:first-child {
+    font-weight: 600 !important;
+    color: #ffffff !important;
+  }
+
+  .f3 .card-label div:nth-child(2) {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-size: 0.9em;
   }
 </style>
 
 <body>
   <div id="container">
-    <a href="javascript:void(0)" class="neu-button copy add-after" onclick="copy()">
-    </a>
-    <a href="javascript:void(0)" class="neu-button download add-after" onclick="downloadF()">
-    </a>
+    <a href="javascript:void(0)" class="neu-button copy add-after" onclick="copy()" title="Copy Data"></a>
+    <a href="javascript:void(0)" class="neu-button download add-after" onclick="downloadF()" title="Download Data"></a>
   </div>
-  <div style="width:100%;height:calc(100vh - 16px);background:#fff;">
-    <div id="FamilyChart" class="f3"
-      style="width:100%;height:100%;background-color:rgb(33,33,33);color:#fff;border-radius: 5px;"></div>
+  <div class="chart-wrapper">
+    <div id="FamilyChart" class="f3"></div>
   </div>
   <script type="module">
 

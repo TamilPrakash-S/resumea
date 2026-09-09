@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>36-Hour Fasting Tracker & Metabolic Weight Loss Engine</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card: #151c2d;
+      --card-border: #232f48;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.35);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --fire: #f97316;
+      --purple: #a855f7;
+      --green: #22c55e;
+      --yellow: #eab308;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    header h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Top Configuration Panel */
+    .setup-panel {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    input[type="datetime-local"],
+    input[type="number"] {
+      background: #0b1120;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      color: #fff;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    input[type="number"] {
+      width: 90px;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+    }
+
+    button {
+      background: #1e293b;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      background: #334155;
+    }
+
+    button.primary {
+      background: #0284c7;
+      border-color: #38bdf8;
+    }
+
+    button.primary:hover {
+      background: #0369a1;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--green);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+      animation: pulseAnim 1.8s infinite;
+    }
+
+    @keyframes pulseAnim {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+
+    /* Layout Grids */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 980px) {
+      .main-grid,
+      .bottom-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    /* Anatomy SVG */
+    .visualizer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    svg.anatomy {
+      width: 100%;
+      max-width: 320px;
+      height: 460px;
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+    }
+
+    .organ {
+      transition: all 0.4s ease;
+    }
+
+    .organ-label {
+      font-size: 11px;
+      fill: #94a3b8;
+      font-weight: 500;
+    }
+
+    .organ-pointer {
+      stroke: #334155;
+      stroke-width: 1.2;
+      stroke-dasharray: 2 2;
+    }
+
+    /* Timeline Controls */
+    .timeline-container {
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    /* Dynamic Target Time Display Box */
+    .time-projection-box {
+      background: #0a1122;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .time-projection-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .time-projection-val {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 10px 0;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .milestone-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .tag-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      padding: 4px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .tag-btn:hover {
+      color: var(--accent);
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    /* Stage Titles & Badges */
+    .stage-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .meters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .meter-card {
+      background: #0e1526;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .meter-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .meter-bar {
+      height: 6px;
+      background: #1e293b;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .meter-progress {
+      height: 100%;
+      transition: width 0.4s ease, background 0.4s ease;
+    }
+
+    /* Weight Breakdown Cards */
+    .wl-metrics-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    @media (max-width: 600px) {
+      .wl-metrics-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .wl-box {
+      background: #0e1526;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .wl-box-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .wl-box-val {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .wl-box-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* Checklist & Protocol Cards */
+    .checklist-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0e1526;
+      border: 1px solid var(--card-border);
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .checklist-item:hover {
+      border-color: var(--accent);
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .refeed-step {
+      background: #0e1526;
+      border-left: 3px solid var(--accent);
+      padding: 12px 14px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 10px;
+    }
+
+    .refeed-step h5 {
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .refeed-step p {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>36-Hour Fasting Tracker & Weight Loss Engine</h1>
+      <p>True fat oxidation, water/glycogen shifts, organ metabolic mapping, and refeeding protocols</p>
+    </header>
+
+    <!-- Top Configuration Panel -->
+    <div class="setup-panel">
+      <div class="input-group">
+        <label for="lastMealInput">Last Food Intake:</label>
+        <input type="datetime-local" id="lastMealInput" />
+        
+        <label for="userWeight">Weight (kg):</label>
+        <input type="number" id="userWeight" min="40" max="250" step="0.5" value="75" />
+        
+        <button class="primary" id="saveBtn">Save Setup</button>
+        <button id="resetNowBtn">Reset to Now</button>
+      </div>
+
+      <div class="status-badge" title="Click to sync visualizer back to your current live fast">
+        <div class="pulse"></div>
+        <span id="elapsedLiveText">Calculating...</span>
+      </div>
+    </div>
+
+    <!-- Main Visualizer Grid -->
+    <div class="main-grid">
+      <!-- SVG Silhouette -->
+      <div class="card visualizer-container">
+        <h3 style="margin-bottom: 8px; font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Organ State</h3>
+        
+        <svg class="anatomy" viewBox="0 0 320 540">
+          <defs>
+            <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+
+          <!-- Centered Body Silhouette -->
+          <g id="body-silhouette" fill="#131b2e" stroke="#25334d" stroke-width="1.8">
+            <path d="M160,20 C145,20 135,32 135,50 C135,68 145,78 153,82 L153,92 C140,96 115,104 100,125 L92,190 C90,205 98,212 105,210 C112,207 114,198 116,185 L124,136 L128,210 C128,235 125,260 125,285 C125,296 135,305 145,308 L138,420 L134,510 C134,518 142,522 148,522 C155,522 157,516 158,505 L159,335 L161,335 L162,505 C163,516 165,522 172,522 C178,522 186,518 186,510 L182,420 L175,308 C185,305 195,296 195,285 C195,260 192,235 192,210 L196,136 L204,185 C206,198 208,207 215,210 C222,212 230,205 228,190 L220,125 C205,104 180,96 167,92 L167,82 C175,78 185,68 185,50 C185,32 175,20 160,20 Z"/>
+          </g>
+
+          <!-- Organs -->
+          <g id="organ-brain" class="organ">
+            <ellipse cx="160" cy="50" rx="18" ry="16" fill="#3b82f6" opacity="0.35" filter="url(#softGlow)"/>
+            <path d="M148,50 C148,42 153,38 160,38 C167,38 172,42 172,50 C172,57 167,61 160,61 C153,61 148,57 148,50 Z" fill="#60a5fa"/>
+            <path d="M160,39 Q157,48 160,54 Q163,57 160,61" stroke="#1e40af" stroke-width="1.2" fill="none"/>
+          </g>
+
+          <g id="organ-liver" class="organ">
+            <ellipse cx="145" cy="172" rx="16" ry="12" fill="#ef4444" opacity="0.3" filter="url(#softGlow)"/>
+            <path d="M132,168 C142,162 155,165 158,172 C158,179 148,183 136,181 C131,180 130,173 132,168 Z" fill="#f87171"/>
+          </g>
+
+          <g id="organ-stomach" class="organ">
+            <ellipse cx="172" cy="172" rx="14" ry="14" fill="#f97316" opacity="0.3" filter="url(#softGlow)"/>
+            <path d="M167,162 C174,162 181,166 181,173 C181,181 173,184 167,181 C164,179 163,174 166,170 C167,167 167,165 167,162 Z" fill="#fb923c"/>
+          </g>
+
+          <g id="organ-pancreas" class="organ">
+            <ellipse cx="160" cy="188" rx="12" ry="6" fill="#eab308" opacity="0.25" filter="url(#softGlow)"/>
+            <path d="M149,188 Q158,184 171,186 Q161,192 149,188" fill="#facc15"/>
+          </g>
+
+          <g id="organ-fat" class="organ">
+            <path d="M132,225 Q126,250 133,275" stroke="#eab308" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.7" filter="url(#softGlow)"/>
+            <path d="M188,225 Q194,250 187,275" stroke="#eab308" stroke-width="4.5" stroke-linecap="round" fill="none" opacity="0.7" filter="url(#softGlow)"/>
+          </g>
+
+          <g id="organ-cells" class="organ">
+            <circle cx="160" cy="130" r="4.5" fill="#a855f7" filter="url(#softGlow)"/>
+            <circle cx="145" cy="142" r="3.5" fill="#a855f7"/>
+            <circle cx="175" cy="142" r="3.5" fill="#a855f7"/>
+            <circle cx="160" cy="215" r="4" fill="#a855f7" filter="url(#softGlow)"/>
+          </g>
+
+          <!-- Label Callouts -->
+          <text x="35" y="52" class="organ-label">Brain</text>
+          <line x1="68" y1="49" x2="148" y2="49" class="organ-pointer"/>
+
+          <text x="18" y="132" class="organ-label">Autophagy</text>
+          <line x1="82" y1="129" x2="152" y2="129" class="organ-pointer"/>
+
+          <text x="35" y="174" class="organ-label">Liver</text>
+          <line x1="65" y1="171" x2="134" y2="171" class="organ-pointer"/>
+
+          <line x1="180" y1="171" x2="242" y2="171" class="organ-pointer"/>
+          <text x="247" y="174" class="organ-label">Stomach</text>
+
+          <line x1="171" y1="188" x2="242" y2="188" class="organ-pointer"/>
+          <text x="247" y="191" class="organ-label">Pancreas</text>
+
+          <line x1="193" y1="248" x2="242" y2="248" class="organ-pointer"/>
+          <text x="247" y="251" class="organ-label">Adipose (Fat)</text>
+        </svg>
+
+        <!-- Slider with Start Time + Hours Dynamic Header -->
+        <div class="timeline-container">
+          <!-- Real-Time Tracker Time Projection Display -->
+          <div class="time-projection-box">
+            <span class="time-projection-label">Projected Point</span>
+            <span id="targetTimeText" class="time-projection-val">Loading...</span>
+          </div>
+
+          <div class="slider-row">
+            <span style="font-size: 0.85rem; font-weight: 600; min-width: 70px;">Hour: <span id="hourVal" style="color: var(--accent);">16</span>h</span>
+            <input type="range" id="hourSlider" min="0" max="36" step="1" value="16" />
+            <button id="togglePlayBtn">▶ Play</button>
+          </div>
+          <div class="milestone-tags">
+            <button class="tag-btn" onclick="setSlider(4)">4h (Digestion)</button>
+            <button class="tag-btn" onclick="setSlider(12)">12h (Glycogen)</button>
+            <button class="tag-btn" onclick="setSlider(18)">18h (Autophagy)</button>
+            <button class="tag-btn" onclick="setSlider(24)">24h (Ketosis)</button>
+            <button class="tag-btn" onclick="setSlider(36)">36h (Deep Ketosis)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Weight Loss & Metabolic Partitioning -->
+      <div class="card">
+        <div class="stage-title">
+          <span id="stageHeading">Autophagy Induction & Fat Burning</span>
+          <span id="fuelBadge" style="font-size: 0.8rem; background: #1e293b; color: #38bdf8; padding: 4px 10px; border-radius: 6px;">Fuel: Fatty Acids</span>
+        </div>
+
+        <p id="stageDescription" style="color: #cbd5e1; font-size: 0.95rem; margin-top: 8px;">
+          Liver glycogen stores are largely drained. Fatty acid mobilization increases through hormonal triggers.
+        </p>
+
+        <!-- Dynamic Fat vs Water Engine -->
+        <div class="wl-metrics-container">
+          <div class="wl-box" style="border-top: 3px solid var(--fire);">
+            <span class="wl-box-label">True Fat Oxidized</span>
+            <span id="fatLossVal" class="wl-box-val" style="color: var(--fire);">118 g</span>
+            <span class="wl-box-sub" id="calBurnVal">~910 kcal deficit</span>
+          </div>
+
+          <div class="wl-box" style="border-top: 3px solid var(--accent);">
+            <span class="wl-box-label">Water & Glycogen Loss</span>
+            <span id="waterLossVal" class="wl-box-val" style="color: var(--accent);">1.12 kg</span>
+            <span class="wl-box-sub">Glycogen + 3.5x bound H₂O</span>
+          </div>
+
+          <div class="wl-box" style="border-top: 3px solid var(--green);">
+            <span class="wl-box-label">Scale Drop / Rebound</span>
+            <span id="scaleLossVal" class="wl-box-val" style="color: var(--green);">-1.24 kg</span>
+            <span class="wl-box-sub" id="reboundSub">~1.1 kg replenishes on refeed</span>
+          </div>
+        </div>
+
+        <!-- Metabolic Rates -->
+        <div class="meters-grid">
+          <div class="meter-card">
+            <span class="meter-label">Insulin Level</span>
+            <strong id="insulinVal">Low</strong>
+            <div class="meter-bar"><div id="insulinBar" class="meter-progress" style="width: 25%; background: #38bdf8;"></div></div>
+          </div>
+          <div class="meter-card">
+            <span class="meter-label">Autophagy Rate</span>
+            <strong id="autophagyVal">Elevated</strong>
+            <div class="meter-bar"><div id="autophagyBar" class="meter-progress" style="width: 65%; background: #a855f7;"></div></div>
+          </div>
+          <div class="meter-card">
+            <span class="meter-label">Ketone Concentration</span>
+            <strong id="ketoneVal">0.6 mmol/L</strong>
+            <div class="meter-bar"><div id="ketoneBar" class="meter-progress" style="width: 40%; background: #f97316;"></div></div>
+          </div>
+          <div class="meter-card">
+            <span class="meter-label">Growth Hormone (HGH)</span>
+            <strong id="hghVal">+150%</strong>
+            <div class="meter-bar"><div id="hghBar" class="meter-progress" style="width: 50%; background: #22c55e;"></div></div>
+          </div>
+        </div>
+
+        <div style="background: #0e1526; padding: 12px; border-radius: 8px; border: 1px solid var(--card-border); margin-top: 8px;">
+          <h4 style="font-size: 0.85rem; color: var(--accent); margin-bottom: 4px;">Metabolic Fuel Breakdown at Current Hour:</h4>
+          <p id="metabolicNote" style="font-size: 0.8rem; color: #cbd5e1;">Fat oxidation provides ~75% of basal energy demands; gluconeogenesis handles the remainder.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Functional Grid: Electrolytes & Refeeding Guard -->
+    <div class="bottom-grid">
+      <!-- Fasting Defense & Electrolyte Checklist -->
+      <div class="card">
+        <h3 style="font-size: 1rem; color: #fff; margin-bottom: 6px;">Electrolyte & Hydration Protocol</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+          Low insulin causes kidneys to excrete sodium rapidly. Check these daily to avoid metabolic slowdown and head tension:
+        </p>
+
+        <div class="checklist-group">
+          <label class="checklist-item">
+            <input type="checkbox" id="chk_water" />
+            <span><strong>Hydration Baseline:</strong> 2.5–3.5 Liters plain or sparkling water</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" id="chk_sodium" />
+            <span><strong>Sodium (Salt):</strong> 2,000–3,000 mg (1/2 tsp Himalayan or mineral salt)</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" id="chk_potassium" />
+            <span><strong>Potassium:</strong> 1,000 mg (via salt substitute or electrolyte powder)</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" id="chk_magnesium" />
+            <span><strong>Magnesium:</strong> 300–400 mg Glycinate/Citrate (assists deep sleep)</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" id="chk_walk" />
+            <span><strong>Zone 2 Walking:</strong> 7,000–10,000 steps (accelerates peak lipolysis)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Refeeding Protocol Guard -->
+      <div class="card">
+        <h3 style="font-size: 1rem; color: #fff; margin-bottom: 6px;">Hour 36 Safe Refeeding Strategy</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+          Avoid large carb loads immediately after fasting to prevent insulin spikes and rebound fat storage:
+        </p>
+
+        <div class="refeed-step">
+          <h5>Stage 1 (Minute 0–45): Digestive Awakening</h5>
+          <p>Warm bone broth with salt, or 1–2 boiled eggs with a few cucumber slices. Starts digestive enzymes without spiking insulin.</p>
+        </div>
+
+        <div class="refeed-step" style="border-left-color: var(--green); margin-top: 8px;">
+          <h5>Stage 2 (After 60–90 mins): Primary Nutrient Meal</h5>
+          <p>Lean chicken breast, salmon, or tofu alongside fibrous greens (spinach, asparagus, zucchini) and extra virgin olive oil or avocado.</p>
+        </div>
+
+        <div class="refeed-step" style="border-left-color: var(--fire); margin-top: 8px;">
+          <h5>Avoid During Refeed Window</h5>
+          <p>Bread, pasta, refined sugary treats, and dairy milk. Insulin sensitivity is high, meaning refined carbohydrates are stored as lipids more readily.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 36-Hour Continuous Physiological & Weight Loss Profiles
+    const fastingData = {
+      0: {
+        title: "Postprandial Absorption Phase",
+        fuel: "Exogenous Glucose",
+        desc: "Food is being actively digested in the gastrointestinal tract. Blood glucose spikes, prompting insulin release to pack glucose into muscle and liver cells.",
+        insulin: { text: "Peak High", pct: 95, color: "#ef4444" },
+        autophagy: { text: "Inhibited (Basal)", pct: 5, color: "#a855f7" },
+        ketones: { text: "Baseline (<0.1)", pct: 5, color: "#f97316" },
+        hgh: { text: "Baseline", pct: 10, color: "#22c55e" },
+        highlights: { stomach: "#fb923c", pancreas: "#facc15", liver: "#475569", brain: "#3b82f6", fat: "#334155", cells: "#334155" },
+        fatBurnRate: 0.10,
+        glycogenRemaining: 1.0,
+        note: "System is relying on digestion. Fat oxidation is blunted by insulin."
+      },
+      4: {
+        title: "Early Post-Absorptive Phase",
+        fuel: "Liver Glycogen",
+        desc: "Digestion winds down in the gut. Circulating glucose drops back down to baseline. Pancreatic insulin drops, while glucagon begins rising.",
+        insulin: { text: "Moderate", pct: 60, color: "#38bdf8" },
+        autophagy: { text: "Suppressed", pct: 10, color: "#a855f7" },
+        ketones: { text: "0.1 mmol/L", pct: 8, color: "#f97316" },
+        hgh: { text: "Baseline", pct: 12, color: "#22c55e" },
+        highlights: { stomach: "#64748b", pancreas: "#facc15", liver: "#f87171", brain: "#3b82f6", fat: "#475569", cells: "#334155" },
+        fatBurnRate: 0.30,
+        glycogenRemaining: 0.85,
+        note: "Liver supplies blood glucose via glycogenolysis. Lipolysis begins to awaken."
+      },
+      12: {
+        title: "Metabolic Crossover & Fat Mobilization",
+        fuel: "Glycogen / Fatty Acids",
+        desc: "Liver glycogen drops to ~30-40%. Insulin drops to minimal basal levels. Hormone-Sensitive Lipase activates in fat cells, releasing free fatty acids.",
+        insulin: { text: "Low", pct: 30, color: "#38bdf8" },
+        autophagy: { text: "Initiating", pct: 25, color: "#a855f7" },
+        ketones: { text: "0.2-0.4 mmol/L", pct: 20, color: "#f97316" },
+        hgh: { text: "+50% Surge", pct: 30, color: "#22c55e" },
+        highlights: { stomach: "#334155", pancreas: "#475569", liver: "#f87171", brain: "#3b82f6", fat: "#eab308", cells: "#8b5cf6" },
+        fatBurnRate: 0.60,
+        glycogenRemaining: 0.40,
+        note: "Metabolic crossover achieved: fat oxidation accounts for over half of total expenditure."
+      },
+      18: {
+        title: "Autophagy Induction & Early Ketosis",
+        fuel: "Free Fatty Acids & Ketones",
+        desc: "Liver glycogen is nearly empty. The body undergoes a profound intracellular shift: autophagy escalates, recycling damaged organelles and unfolded proteins.",
+        insulin: { text: "Very Low", pct: 15, color: "#38bdf8" },
+        autophagy: { text: "Rapid Acceleration", pct: 60, color: "#a855f7" },
+        ketones: { text: "0.5-1.0 mmol/L", pct: 40, color: "#f97316" },
+        hgh: { text: "+100% Increase", pct: 50, color: "#22c55e" },
+        highlights: { stomach: "#334155", pancreas: "#334155", liver: "#f87171", brain: "#60a5fa", fat: "#f59e0b", cells: "#a855f7" },
+        fatBurnRate: 0.78,
+        glycogenRemaining: 0.15,
+        note: "Lipolysis runs at peak efficiency. Cellular repair is elevated."
+      },
+      24: {
+        title: "Deep Ketosis & Systemic Autophagy",
+        fuel: "Ketones & Fatty Acids",
+        desc: "Full 24-hour cycle completed. Systemic autophagy is highly elevated across skeletal muscle, liver, and epithelial tissues. Inflammation markers drop.",
+        insulin: { text: "Basal Floor", pct: 10, color: "#38bdf8" },
+        autophagy: { text: "Peak Acceleration", pct: 85, color: "#a855f7" },
+        ketones: { text: "1.2-2.0 mmol/L", pct: 65, color: "#f97316" },
+        hgh: { text: "+200% Surge", pct: 75, color: "#22c55e" },
+        highlights: { stomach: "#334155", pancreas: "#334155", liver: "#ef4444", brain: "#93c5fd", fat: "#f59e0b", cells: "#c084fc" },
+        fatBurnRate: 0.85,
+        glycogenRemaining: 0.05,
+        note: "Ketones supply ~50% of brain energy demands. Water weight loss stabilizes."
+      },
+      36: {
+        title: "Extended Cleansing & Muscle Preservation",
+        fuel: "Ketones & Gluconeogenesis",
+        desc: "Human Growth Hormone (HGH) peaks sharply to protect lean muscle mass from degradation. Extensive cellular renewal and sustained systemic ketosis.",
+        insulin: { text: "Suppressed Minimum", pct: 5, color: "#38bdf8" },
+        autophagy: { text: "High Plateau", pct: 95, color: "#a855f7" },
+        ketones: { text: "2.0-3.5 mmol/L", pct: 90, color: "#f97316" },
+        hgh: { text: "+300-400% Peak", pct: 95, color: "#22c55e" },
+        highlights: { stomach: "#334155", pancreas: "#334155", liver: "#ef4444", brain: "#bfdbfe", fat: "#f97316", cells: "#e9d5ff" },
+        fatBurnRate: 0.90,
+        glycogenRemaining: 0.0,
+        note: "Peak fat oxidation and HGH protection. Prepare for gentle staged refeeding."
+      }
+    };
+
+    function getDataForHour(h) {
+      const keys = Object.keys(fastingData).map(Number).sort((a,b) => a - b);
+      let closest = keys[0];
+      for (let k of keys) {
+        if (h >= k) closest = k;
+      }
+      return fastingData[closest];
+    }
+
+    // Storage Keys
+    const STORAGE_KEY = 'fasting_app_start_time';
+    const WEIGHT_KEY = 'fasting_app_user_weight';
+    const CHECK_PREFIX = 'fasting_app_chk_';
+
+    // DOM Elements
+    const lastMealInput = document.getElementById('lastMealInput');
+    const userWeightInput = document.getElementById('userWeight');
+    const saveBtn = document.getElementById('saveBtn');
+    const resetNowBtn = document.getElementById('resetNowBtn');
+    const elapsedLiveText = document.getElementById('elapsedLiveText');
+    const hourSlider = document.getElementById('hourSlider');
+    const hourVal = document.getElementById('hourVal');
+    const togglePlayBtn = document.getElementById('togglePlayBtn');
+    const targetTimeText = document.getElementById('targetTimeText');
+
+    const stageHeading = document.getElementById('stageHeading');
+    const stageDescription = document.getElementById('stageDescription');
+    const fuelBadge = document.getElementById('fuelBadge');
+    const insulinVal = document.getElementById('insulinVal');
+    const insulinBar = document.getElementById('insulinBar');
+    const autophagyVal = document.getElementById('autophagyVal');
+    const autophagyBar = document.getElementById('autophagyBar');
+    const ketoneVal = document.getElementById('ketoneVal');
+    const ketoneBar = document.getElementById('ketoneBar');
+    const hghVal = document.getElementById('hghVal');
+    const hghBar = document.getElementById('hghBar');
+
+    const fatLossVal = document.getElementById('fatLossVal');
+    const calBurnVal = document.getElementById('calBurnVal');
+    const waterLossVal = document.getElementById('waterLossVal');
+    const scaleLossVal = document.getElementById('scaleLossVal');
+    const reboundSub = document.getElementById('reboundSub');
+    const metabolicNote = document.getElementById('metabolicNote');
+
+    // Organs
+    const organBrain = document.getElementById('organ-brain');
+    const organLiver = document.getElementById('organ-liver');
+    const organStomach = document.getElementById('organ-stomach');
+    const organPancreas = document.getElementById('organ-pancreas');
+    const organFat = document.getElementById('organ-fat');
+    const organCells = document.getElementById('organ-cells');
+
+    // Mode tracking
+    let isLiveSync = true;
+    let isPlaying = false;
+    let playInterval = null;
+
+    function formatDateTimeLocal(date) {
+      const pad = (n) => String(n).padStart(2, '0');
+      const yyyy = date.getFullYear();
+      const MM = pad(date.getMonth() + 1);
+      const dd = pad(date.getDate());
+      const hh = pad(date.getHours());
+      const mm = pad(date.getMinutes());
+      return `${yyyy}-${MM}-${dd}T${hh}:${mm}`;
+    }
+
+    // Calculates and displays Start Time + Selected Hours
+    function updateProjectedTimeDisplay(hours) {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) return;
+
+      const startTime = new Date(stored).getTime();
+      const targetTimestamp = startTime + (hours * 3600 * 1000);
+      const targetDate = new Date(targetTimestamp);
+      const now = Date.now();
+
+      // Formatted Date string: e.g. "Wed, Sep 9 • 09:30 PM"
+      const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const formattedDateStr = targetDate.toLocaleDateString(undefined, options);
+
+      // Status indicator (Passed vs Future)
+      let statusTag = '';
+      if (targetTimestamp <= now) {
+        statusTag = `<span style="font-size: 0.72rem; color: var(--green); background: rgba(34,197,94,0.15); padding: 2px 6px; border-radius: 4px;">✓ Passed</span>`;
+      } else {
+        statusTag = `<span style="font-size: 0.72rem; color: var(--accent); background: rgba(56,189,248,0.15); padding: 2px 6px; border-radius: 4px;">⏳ Projected</span>`;
+      }
+
+      targetTimeText.innerHTML = `${formattedDateStr} ${statusTag}`;
+    }
+
+    function initTracker() {
+      let storedTime = localStorage.getItem(STORAGE_KEY);
+      let startDate;
+      if (storedTime) {
+        startDate = new Date(storedTime);
+      } else {
+        startDate = new Date(Date.now() - 16 * 3600 * 1000);
+        localStorage.setItem(STORAGE_KEY, startDate.toISOString());
+      }
+      lastMealInput.value = formatDateTimeLocal(startDate);
+
+      let storedWeight = localStorage.getItem(WEIGHT_KEY);
+      if (storedWeight) {
+        userWeightInput.value = storedWeight;
+      }
+
+      ['chk_water', 'chk_sodium', 'chk_potassium', 'chk_magnesium', 'chk_walk'].forEach(id => {
+        const el = document.getElementById(id);
+        const val = localStorage.getItem(CHECK_PREFIX + id);
+        if (val === 'true') el.checked = true;
+        el.addEventListener('change', () => {
+          localStorage.setItem(CHECK_PREFIX + id, el.checked);
+        });
+      });
+
+      const liveBadge = document.querySelector('.status-badge');
+      liveBadge.addEventListener('click', () => {
+        stopPlay();
+        isLiveSync = true;
+        updateLiveTimer();
+      });
+
+      updateLiveTimer();
+    }
+
+    function calculateWeightChanges(h, bodyWeightKg) {
+      const hourlyBMR = (bodyWeightKg * 22) / 24; 
+      let totalFatGrams = 0;
+      let totalCalExpended = 0;
+
+      for (let i = 1; i <= h; i++) {
+        const stageData = getDataForHour(i);
+        const hourlyCals = hourlyBMR * 1.15;
+        totalCalExpended += hourlyCals;
+        const fatCals = hourlyCals * stageData.fatBurnRate;
+        totalFatGrams += (fatCals / 7.7);
+      }
+
+      const baseGlycogenGrams = Math.min(600, bodyWeightKg * 5.5);
+      const curStage = getDataForHour(h);
+      const glycogenBurned = baseGlycogenGrams * (1 - curStage.glycogenRemaining);
+      const boundWaterGrams = glycogenBurned * 3.5;
+      const totalWaterGlycogenKg = (glycogenBurned + boundWaterGrams) / 1000;
+      const fatKg = totalFatGrams / 1000;
+      const totalScaleDropKg = fatKg + totalWaterGlycogenKg;
+
+      return {
+        fatGrams: Math.round(totalFatGrams),
+        calDeficit: Math.round(totalCalExpended),
+        waterKg: totalWaterGlycogenKg.toFixed(2),
+        scaleDropKg: totalScaleDropKg.toFixed(2),
+        reboundKg: totalWaterGlycogenKg.toFixed(1)
+      };
+    }
+
+    function updateLiveTimer() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) return;
+
+      const start = new Date(stored).getTime();
+      const now = Date.now();
+      const diffMs = Math.max(0, now - start);
+
+      const totalHours = diffMs / (1000 * 60 * 60);
+      const hoursInt = Math.floor(totalHours);
+      const minutesInt = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      const secondsInt = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+      elapsedLiveText.textContent = `Fast Duration: ${hoursInt}h ${minutesInt}m ${secondsInt}s`;
+
+      if (isLiveSync && !isPlaying) {
+        const clampedHour = Math.min(36, Math.max(0, hoursInt));
+        hourSlider.value = clampedHour;
+        renderHour(clampedHour);
+      }
+    }
+
+    function renderHour(h) {
+      hourVal.textContent = h;
+      const data = getDataForHour(h);
+      const weight = parseFloat(userWeightInput.value) || 75;
+
+      // Update Start Time + Hours target date
+      updateProjectedTimeDisplay(h);
+
+      stageHeading.textContent = `${h}h: ${data.title}`;
+      stageDescription.textContent = data.desc;
+      fuelBadge.textContent = `Fuel: ${data.fuel}`;
+      metabolicNote.textContent = data.note;
+
+      insulinVal.textContent = data.insulin.text;
+      insulinBar.style.width = data.insulin.pct + '%';
+      insulinBar.style.background = data.insulin.color;
+
+      autophagyVal.textContent = data.autophagy.text;
+      autophagyBar.style.width = data.autophagy.pct + '%';
+      autophagyBar.style.background = data.autophagy.color;
+
+      ketoneVal.textContent = data.ketones.text;
+      ketoneBar.style.width = data.ketones.pct + '%';
+      ketoneBar.style.background = data.ketones.color;
+
+      hghVal.textContent = data.hgh.text;
+      hghBar.style.width = data.hgh.pct + '%';
+      hghBar.style.background = data.hgh.color;
+
+      const wl = calculateWeightChanges(h, weight);
+      fatLossVal.textContent = `${wl.fatGrams} g`;
+      calBurnVal.textContent = `~${wl.calDeficit} kcal deficit`;
+      waterLossVal.textContent = `${wl.waterKg} kg`;
+      scaleLossVal.textContent = `-${wl.scaleDropKg} kg`;
+      reboundSub.textContent = `~${wl.reboundKg} kg replenishes on refeed`;
+
+      setOrganState(organBrain, data.highlights.brain);
+      setOrganState(organLiver, data.highlights.liver);
+      setOrganState(organStomach, data.highlights.stomach);
+      setOrganState(organPancreas, data.highlights.pancreas);
+      setOrganState(organFat, data.highlights.fat);
+      setOrganState(organCells, data.highlights.cells);
+    }
+
+    function setOrganState(element, color) {
+      const targets = element.querySelectorAll('path, ellipse, circle');
+      targets.forEach(el => {
+        if (el.tagName === 'path' && el.getAttribute('stroke') && (!el.getAttribute('fill') || el.getAttribute('fill') === 'none')) {
+          el.setAttribute('stroke', color);
+        } else {
+          el.setAttribute('fill', color);
+        }
+      });
+    }
+
+    window.setSlider = function(h) {
+      stopPlay();
+      isLiveSync = false;
+      hourSlider.value = h;
+      renderHour(h);
+    };
+
+    hourSlider.addEventListener('input', (e) => {
+      stopPlay();
+      isLiveSync = false;
+      renderHour(parseInt(e.target.value, 10));
+    });
+
+    userWeightInput.addEventListener('input', () => {
+      localStorage.setItem(WEIGHT_KEY, userWeightInput.value);
+      renderHour(parseInt(hourSlider.value, 10));
+    });
+
+    saveBtn.addEventListener('click', () => {
+      if (!lastMealInput.value) return;
+      const selected = new Date(lastMealInput.value);
+      localStorage.setItem(STORAGE_KEY, selected.toISOString());
+      localStorage.setItem(WEIGHT_KEY, userWeightInput.value);
+      isLiveSync = true;
+      updateLiveTimer();
+      renderHour(parseInt(hourSlider.value, 10));
+    });
+
+    resetNowBtn.addEventListener('click', () => {
+      const now = new Date();
+      lastMealInput.value = formatDateTimeLocal(now);
+      localStorage.setItem(STORAGE_KEY, now.toISOString());
+      isLiveSync = true;
+      updateLiveTimer();
+      renderHour(parseInt(hourSlider.value, 10));
+    });
+
+    function stopPlay() {
+      if (playInterval) {
+        clearInterval(playInterval);
+        playInterval = null;
+      }
+      isPlaying = false;
+      togglePlayBtn.textContent = '▶ Play';
+    }
+
+    togglePlayBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        stopPlay();
+      } else {
+        isLiveSync = false;
+        isPlaying = true;
+        togglePlayBtn.textContent = '⏸ Pause';
+        playInterval = setInterval(() => {
+          let cur = parseInt(hourSlider.value, 10);
+          cur = cur >= 36 ? 0 : cur + 1;
+          hourSlider.value = cur;
+          renderHour(cur);
+        }, 600);
+      }
+    });
+
+    initTracker();
+    setInterval(updateLiveTimer, 1000);
+  </script>
+</body>
+</html>
